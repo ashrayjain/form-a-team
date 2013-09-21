@@ -6,6 +6,11 @@
     align:center;
 }
 
+#formContainerInJoinEventPage {
+    padding:50px;
+    align:center;
+}
+
 #event-data-holder {
     background-color: rgba(255, 255, 255, 0.5);
 }
@@ -36,7 +41,6 @@
     padding-right: 5px;
     border-top: 0px;
     border-left: 0px;
-    border-right: thin solid black;
     border-bottom: thin solid black;
 }
 
@@ -55,4 +59,9 @@
 
 .eventServerResponse
 {
+}
+
+body#teamformbody {
+    background-repeat:no-repeat;
+    background-size: 100%;
 }

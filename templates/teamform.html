@@ -9,7 +9,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 </head>
 
-<body>
+<body id="teamformbody" background="../pics/bg.jpg">
 <div class = "banner">
     {{ Event.name }}
     {{ Event.organiser }}
@@ -18,27 +18,35 @@
 <script type="text/javascript">
 	var currentEvent = "{{ Event.url }}";
 </script>
-<form>
-    <table class = "form-holder">
-        <caption>Join an Event</caption>
-        <tr class = "form-row">
-            <td class = "form-cell">Name</td>
-            <td class = "form-cell"><input type="text" id="userName" class = "form-input-text" /></td>
-        </tr>
-        <tr class = "form-row">
-            <td class = "form-cell">Email</td>
-            <td class = "form-cell"><input type="text" id="userEmail" class = "form-input-text" /></td>
-        </tr>
-        <tr class = "form-row">
-            <td class = "form-cell">Skills</td>
-            <td class = "form-cell"><input type="text" id="userSkills" class = "form-input-text" title="Test" /></td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <input type="submit" onclick="return joinAnEvent();"/>
-        </tr>
-    </table>
-</form>
+     <div class="container" id="formContainerInJoinEventPage">
+        <div class="row">
+            <div class="span12">
+                <form id="joinEventForm" role="form">
+                    <div class="span6" style="text-align:center">
+                        <table class = "form-holder">
+                            <caption><h1 style="align: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Join the Event</h1></caption>
+                            <tr class = "form-row">
+                                <td class = "form-cell">Name</td>
+                                <td class = "form-cell"><input type="text" id="userName" class = "form-input-text" /></td>
+                            </tr>
+                            <tr class = "form-row">
+                                <td class = "form-cell">Email</td>
+                                <td class = "form-cell"><input type="text" id="userEmail" class = "form-input-text" /></td>
+                            </tr>
+                            <tr class = "form-row">
+                                <td class = "form-cell">Skills</td>
+                                <td class = "form-cell"><input type="text" id="userSkills" class = "form-input-text" title="Test" /></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <input type="submit" onclick="return joinAnEvent();"/>
+                            </tr>
+                        </table>
+                    </div>
+                 </form>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>

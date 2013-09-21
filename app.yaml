@@ -24,6 +24,9 @@ handlers:
 - url: /templates/images
   static_dir: templates/images
 
+- url: /pics
+  static_dir: pics
+
 - url: .*
   script: main.app
 
