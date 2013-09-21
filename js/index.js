@@ -12,7 +12,14 @@ function createAnEvent()
     {
         var postPackage = generateCreateAnEventPostPackage();
         $.post("/ajax/createEvent", postPackage, function (data){
-            $('#event-data-holder').val("<p class = 'eventServerResponse'> Your event has been created! Here is the exclusive url for your event: </p><br><p class='eventServerResponseURL'>"+data+"</p>");
+			if(data.response == "false")
+			{
+				alert(data.responseStr);
+			}
+			else
+			{
+	            $('#event-data-holder').val("<p class = 'eventServerResponse'> Your event has been created! Here is the exclusive url for your event: </p><br><p class='eventServerResponseURL'>"+document.URL.protocol+"://"+document.URL.host+data+"</p>");
+			}
         });
     }
     return false;
@@ -169,14 +176,7 @@ function jumpTeam(teamId)
 	$.post("/ajax/leaveTeam",postPackageLeaveTeamData);
 	var postPackageJoinTeamData = generateUserJoinTeamPostPackage(teamId);
 	$.post("/ajax/joinTeam",postPackageJoinTeamData,function success(data){
-		if(data.response == "false")
-		{
-			alert(data.responseStr);
-		}
-		else
-		{
-			alert("You have been successfully removed from your previous team, and a new request has been sent over to your new team leader. Please wait for the response from your new leader.");
-		}
+		alert("You have been successfully removed from your previous team, and a new request has been sent over to your new team leader. Please wait for the response from your new leader.");
 	});
 }
 
