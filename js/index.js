@@ -112,13 +112,44 @@ function generateUserJoinEventPostPackage()
 	return data;
 }
 
-function joinTeam()
+function joinTeam(teamId)
 {
-	var postPackage = generateUserJoinTeamPostPackage();
-	$.post(postPackage,"");
+	if(confirm("Are you sure you want to request to join the team with id "+teamid+"?"))
+	{
+		var postPackage = generateUserJoinTeamPostPackage(teamId);
+		$.post(postPackage,postPackage,function success(data){
+			alert("The request has been sent to the team leader of this team. Please wait for the response from them.");
+		});
+	}
 }
 
-function generateUserJoinTeamPostPackage()
+function generateUserJoinTeamPostPackage(teamId)
 {
+	data = {};
 	
+	data["userURL"] = currentURL;
+	data["teamID"] = teamId;
+	
+	return data;
+}
+
+function leaveTeam()
+{
+	if(confirm("Are you sure you want to leave the current team you are in?"))
+	{
+		var postPackage = generateUserLeaveTeamPostPackage();
+		
+		$.post("../ajax/leaveTeam",postPackageData,function success(data){
+			alert("You have been removed from the team!");
+		});
+	}
+}
+
+function generateUserLeaveTeamPostPackage()
+{
+	data = {};
+	
+	data["userURL"] = currentURL;
+	
+	return data;
 }
