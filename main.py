@@ -25,7 +25,7 @@ class Handler(webapp2.RequestHandler):
 
 class MainHandler(Handler):
     def get(self):
-        self.render("index.html", Event="test")
+        self.render("index.html")
 
 
 createEventAttributes = [
@@ -49,12 +49,13 @@ class CreateEventHandler(Handler):
             "responseStr": "Email not valid!"
         }
         if (mail.is_email_valid(eventAttributes["eventOrganiserEmail"])):
-            self.createEvent(eventAttributes)
+            newID = self.createEvent(eventAttributes)
             responseJSON["response"] = True
-            responseJSON["responseStr"] = ""
+            responseJSON["responseStr"] = "/events/"+newID
         self.response.out.write(json.dumps(responseJSON))
 
     def createEvent(self, eventAttributes):
+        eventID = util.getRandomEventURL()
         event = Event(
             name=eventAttributes["eventName"],
             description=eventAttributes["eventDesc"],
@@ -63,9 +64,10 @@ class CreateEventHandler(Handler):
             maxTeamSize=int(eventAttributes["eventTeamRangeHigh"]),
             minTeamSize=int(eventAttributes["eventTeamRangeLow"]),
             maxParticipants=int(eventAttributes["eventParticipantCount"]),
-            id = util.getRandomEventURL()            
+            id = eventID
         )
         event.put()
+        return eventID
 
 
 joinEventAttributes = [
@@ -130,7 +132,9 @@ class LeaveTeamHandler(Handler):
 
 class UserPageHandler(Handler):
     def get(self, userID):
+        print userID
         user = User.get_by_id(userID)
+        print user
         if user is None:
             self.redirect('/')
         else:
@@ -156,8 +160,13 @@ class UserPageHandler(Handler):
             self.render("form-team.html", Event=returnObj)
 
 class EventPageHandler(Handler):
-    def get(self):
-        return
+    def get(self, eventID):
+        event = Event.get_by_id(eventID)
+        if (event != None):
+            self.render("teamform.html", Event={"name": event.name, "organiser": event.organizer, "description": event.description})
+        else:
+            self.redirect("/")
+
 
 class JoinRequestResponseHandler(Handler):
     def get(self):
@@ -175,8 +184,8 @@ app = webapp2.WSGIApplication([
     ('/ajax/formTeam', FormTeamHandler),
     ('/ajax/joinTeam', JoinTeamHandler),
     ('/ajax/leaveTeam', LeaveTeamHandler),
-    ('/user/(d+)', UserPageHandler),
-    ('/event/', EventPageHandler),
+    ('/user/([0-9a-z]{32})', UserPageHandler),
+    ('/events/([0-9a-z]{32})', EventPageHandler),
     ('/joinRequest/', JoinRequestResponseHandler),
     ('/formRequest/', FormRequestResponseHandler)
 ], debug=True)
