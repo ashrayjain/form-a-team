@@ -136,11 +136,11 @@ function generateUserJoinAnEventPostPackage()
 
 function joinTeam(teamId)
 {
-    if(confirm("Are you sure you want to request to join the team with id "+teamid+"?"))
+    if(confirm("Are you sure you want to request to join the team with id "+teamId+"?"))
     {
         var postPackage = generateUserJoinTeamPostPackage(teamId);
-        $.post(postPackage,postPackage,function success(data){
-			if(data.response == "false")
+        $.post("/ajax/joinTeam", postPackage,function success(data){
+			if(data.response == false)
 			{
 				alert(data.responseStr);
 			}

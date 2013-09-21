@@ -122,7 +122,7 @@ class FormTeamHandler(Handler):
 class JoinTeamHandler(Handler):
     def post(self):
         newID = util.getRandomJoinTeamURL()
-        joinTeamRequest = FormTeamRequest(
+        joinTeamRequest = JoinTeamRequest(
             userURL=self.request.get("userURL"),
             teamToJoin=self.request.get("teamID"),
             id=newID
@@ -156,7 +156,7 @@ class UserPageHandler(Handler):
             teams = Team.query(Team.event == user.event)
             print teams
             for team in teams:
-                teamID = hex(team.key.id())
+                teamID = str(team.key.id())
                 returnObj["teams"][teamID] = []
                 members = User.query(User.team == teamID)
                 for member in members:
@@ -228,7 +228,8 @@ class FormRequestResponseHandler(Handler):
                 newTeam = Team(teamLeader=users[0].key.id(), event=users[0].event)
                 newTeam.put()
                 for user in users:
-                    user.team = hex(newTeam.key.id())
+                    user.team = str(newTeam.key.id())
+                ndb.put_multi(users)
                 self.response.out.write("Team Forming Request Approved! Thanks!")
             else:
                 formRequest.key.delete()

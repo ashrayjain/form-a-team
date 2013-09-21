@@ -26,7 +26,7 @@ class Event(ndb.Model):
 
 class JoinTeamRequest(ndb.Model):
     userURL = ndb.StringProperty(required=True)
-    teamToJoin = ndb.IntegerProperty(required=True)
+    teamToJoin = ndb.StringProperty(required=True)
 
 class FormTeamRequest(ndb.Model):
     senderURL = ndb.StringProperty(required=True)
