@@ -13,21 +13,22 @@
     {% for (teamId,team) in Event.teams %}
     	<ul team-id = "{{ teamId }}" class = "teams"> 
         	<li> Team {{ loop.index }} </li>
+            {% if User.team == teamId %}
+            	<li class = "editable" title = "{{ member.skills }}"> {{member.name }} </li>
+            {% endif %}
             {% for member in team.members %}
-            	{% if member != user %}
             		<li class = "non-editable" title = "{{ member.skills }}"> {{ member.name }} </li>
-                {% else %}
-                	<li class = "editable"> {{member.name }} </li>
-                {% endif %}
             {% endfor %}
         </ul>
     {% endfor %}
    	<ul>
    	{% for participant in Event.nonteam %}
-    	<li class = "non-editable" title = "{{ participant.skills }}"> {{ participant.name }} 
-        {% if user != participant %}
-        	<button onClick="formTeam({{ participant.url }})">Request to make Team</button>
+    	{% if User.team == "" %}
+    	<li class = "non-editable" title = "{{ participant.skills }}"> {{ participant.name }}
+        </li>
         {% endif %}
+    	<li class = "non-editable" title = "{{ participant.skills }}"> {{ participant.name }} 
+        	<button onClick="formTeam({{ participant.url }})">Request to make Team</button>
         </li>
     {% endfor %}
     </ul>
@@ -40,5 +41,7 @@
 		tolerance: "pointer",
 		hoverClass: "teamHighlight"
 	});
+	
+	$("")
 </script>
 </html>
