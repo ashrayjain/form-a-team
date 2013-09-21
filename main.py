@@ -6,10 +6,10 @@ from google.appengine.api import mail
 import util
 import json
 
-
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir),
                                        autoescape=True)
+
 class Handler(webapp2.RequestHandler):
     """Handler Class with Utility functions for Templates"""
 
@@ -114,6 +114,7 @@ class FormTeamHandler(Handler):
     def executeFormTeamRequest(self, receiveURL):
         return
 
+
 class JoinTeamHandler(Handler):
     def post(self):
         joinTeamRequest = FormTeamRequest(
@@ -127,6 +128,45 @@ class LeaveTeamHandler(Handler):
     def post(self):
         return
 
+class UserPageHandler(Handler):
+    def get(self, userID):
+        user = User.get_by_id(userID)
+        if user is None:
+            self.redirect('/')
+        else:
+            event = Event.get_by_id(user.event)
+            returnObj = {
+                "name": event.name,
+                "organiser": event.organizer,
+                "description": event.description,
+                "teams": {},
+                "nonteam": []
+            }
+            teams = Team.query("event =", event.name)
+            for team in teams:
+                returnObj["teams"][team.key.id()] = []
+                members = User.query("team =", team.key.id())
+                for member in members:
+                    returnObj["teams"][team.key.id()].append({
+                        "name": member.name,
+                        "email": member.email,
+                        "skills": member.skills,
+                        "url": member.key.id()
+                    })
+            self.render("form-team.html", Event=returnObj)
+
+class EventPageHandler(Handler):
+    def get(self):
+        return
+
+class JoinRequestResponseHandler(Handler):
+    def get(self):
+        return
+
+class FormRequestResponseHandler(Handler):
+    def get(self):
+        return
+
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
@@ -134,5 +174,9 @@ app = webapp2.WSGIApplication([
     ('/ajax/joinEvent', JoinEventHandler),
     ('/ajax/formTeam', FormTeamHandler),
     ('/ajax/joinTeam', JoinTeamHandler),
-    ('/ajax/leaveTeam', LeaveTeamHandler)
+    ('/ajax/leaveTeam', LeaveTeamHandler),
+    ('/user/(d+)', UserPageHandler),
+    ('/event/', EventPageHandler),
+    ('/joinRequest/', JoinRequestResponseHandler),
+    ('/formRequest/', FormRequestResponseHandler)
 ], debug=True)
