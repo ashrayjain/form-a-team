@@ -4,6 +4,7 @@ import os
 from Db_Schema import *
 from google.appengine.api import mail
 import util
+import json
 
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
@@ -24,7 +25,7 @@ class Handler(webapp2.RequestHandler):
 
 class MainHandler(Handler):
     def get(self):
-        self.render("teamform.html", Event="test")
+        self.render("index.html", Event="test")
 
 
 createEventAttributes = [
@@ -41,16 +42,16 @@ class CreateEventHandler(Handler):
         eventAttributes = {}
         for attribute in createEventAttributes:
             eventAttributes[attribute] = self.request.get(attribute)
+
         self.response.headers['Content-Type'] = "application/json"
         responseJSON = {
             "response": False,
             "responseStr": "Email not valid!"
         }
-        if (mail.is_email_valid(eventAttributes["eventOrganiserEmail"]))
-        self.createEvent(eventAttributes)
-        responseJSON["response"] = True
-        responseJSON["responseStr"] = ""
-
+        if (mail.is_email_valid(eventAttributes["eventOrganiserEmail"])):
+            self.createEvent(eventAttributes)
+            responseJSON["response"] = True
+            responseJSON["responseStr"] = ""
         self.response.out.write(json.dumps(responseJSON))
 
     def createEvent(self, eventAttributes):
@@ -61,10 +62,9 @@ class CreateEventHandler(Handler):
             organizerEmail=eventAttributes["eventOrganiserEmail"],
             maxTeamSize=int(eventAttributes["eventTeamRangeHigh"]),
             minTeamSize=int(eventAttributes["eventTeamRangeLow"]),
-            maxParticipants=int(eventAttributes["eventParticipantCount"])
+            maxParticipants=int(eventAttributes["eventParticipantCount"]),
             id = util.getRandomEventURL()            
         )
-        print event
         event.put()
 
 
@@ -79,17 +79,16 @@ class JoinEventHandler(Handler):
         joinAttributes = {}
         for attribute in joinEventAttributes:
             joinAttributes[attribute] = self.request.get(attribute)
-        self.response.headers['Content-Type'] = "application/json"
 
+        self.response.headers['Content-Type'] = "application/json"
         responseJSON = {
             "response": False,
             "responseStr": "Email not valid!"
         }
-        if (mail.is_email_valid(joinAttributes["userEmail"]))
-        self.joinEvent(joinAttributes)
-        responseJSON["response"] = True
-        responseJSON["responseStr"] = ""
-
+        if (mail.is_email_valid(joinAttributes["userEmail"])):
+            self.joinEvent(joinAttributes)
+            responseJSON["response"] = True
+            responseJSON["responseStr"] = ""
         self.response.out.write(json.dumps(responseJSON))
 
     def joinEvent(self, joinAttributes):
@@ -113,7 +112,7 @@ class FormTeamHandler(Handler):
         self.executeFormTeamRequest(receiveURL)
 
     def executeFormTeamRequest(self, receiveURL):
-        if not mail.is_email_valid()        
+        return
 
 class JoinTeamHandler(Handler):
     def post(self):
