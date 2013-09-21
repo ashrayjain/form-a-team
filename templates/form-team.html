@@ -11,7 +11,7 @@
     </div>
 
     {% for (teamId,team) in Event.teams %}
-    	<ul team-id = "{{ teamId }}" class = "teams"> 
+    	<ul id = "{{ teamId }}" class = "teams"> 
         	<li> Team {{ loop.index }} </li>
             {% if User.team == teamId %}
             	<li id = "user" class = "editable" title = "{{ member.skills }}"> {{member.name }} </li>
@@ -46,6 +46,7 @@
 		hoverClass: "teamHighlight",
 		accept: "#user",
 		drop: function(event, ui){
+			joinTeam(event.target.id);
 			}
 	});
 	
