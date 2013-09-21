@@ -88,7 +88,7 @@ function joinAnEvent()
     {
         var postPackage = generateUserJoinAnEventPostPackage();
         $.post("/ajax/joinEvent", postPackage,function success(data){
-			console.Log(data);
+			console.log(data);
 			if(data.response == true)
 			{
 				alert("You have been added to this event. Your unique url has been sent to your email.");
