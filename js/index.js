@@ -12,7 +12,7 @@ function createAnEvent()
     {
         var postPackage = generateCreateAnEventPostPackage();
         $.post("/ajax/createEvent", postPackage, function (data){
-			if(data.response == "false")
+			if(data.response == false)
 			{
 				alert(data.responseStr);
 			}
@@ -90,7 +90,8 @@ function joinAnEvent()
     {
         var postPackage = generateUserJoinAnEventPostPackage();
         $.post("/ajax/joinEvent", postPackage,function success(data){
-			if(data.response == "true")
+			cosole.Log(data);
+			if(data.response == true)
 			{
 				alert("You have been added to this event. Your unique url has been sent to your email.");
 				window.location = window.location.protocol+"://"+window.location.host+data.responseStr;
