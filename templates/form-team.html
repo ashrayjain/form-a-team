@@ -14,7 +14,7 @@
     	<ul> 
         	<li> Team {{ loop.index }} </li>
             {% for member in team.members %}
-            	<li mem-> {{ member.name }} </li>
+            	<li member-id = "{{ member.URL }}"> {{ member.name }} </li>
             {% endfor %}
         </ul>
     {% endfor %}
