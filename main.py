@@ -2,6 +2,7 @@ import webapp2
 import jinja2
 import os
 from Db_Schema import *
+import util
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir),
@@ -48,7 +49,8 @@ class CreateEventHandler(Handler):
             organizerEmail=eventAttributes["eventOrganiserEmail"],
             maxTeamSize=int(eventAttributes["eventTeamRangeHigh"]),
             minTeamSize=int(eventAttributes["eventTeamRangeLow"]),
-            maxParticipants=int(eventAttributes["eventParticipantCount"])
+            maxParticipants=int(eventAttributes["eventParticipantCount"]),
+            id=util.getRandomEventURL()
         )
         print event
         event.put()
@@ -73,6 +75,7 @@ class JoinEventHandler(Handler):
             email=joinAttributes["userEmail"],
             skills=joinAttributes["userSkills"],
             event=joinAttributes["eventUrl"],
+            id=util.getRandomUserURL()
         )
         newUser.put()
 
@@ -80,7 +83,8 @@ class FormTeamHandler(Handler):
     def post(self):
         formTeamRequest = FormTeamRequest(
             senderURL = self.request.get("senderURL"),
-            receiveURL = self.request.get("receiveURL")
+            receiveURL = self.request.get("receiveURL"),
+            id = getRandomFormTeamURL()
         )
         formTeamRequest.put()
 
@@ -88,7 +92,8 @@ class JoinTeamHandler(Handler):
     def post(self):
         joinTeamRequest = FormTeamRequest(
             userURL=self.request.get("userURL"),
-            teamToJoin=self.request.get("teamID")
+            teamToJoin=self.request.get("teamID"),
+            id = util.getRandomJoinTeamURL()
         )
         joinTeamRequest.put()
 
