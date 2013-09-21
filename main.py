@@ -20,7 +20,7 @@ class Handler(webapp2.RequestHandler):
 
 class MainHandler(Handler):
     def get(self):
-        self.response.write('Hello world!')
+        self.render("form-team.html", Event="test")
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
