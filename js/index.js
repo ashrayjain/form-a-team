@@ -6,6 +6,7 @@ var userJoinAnEventData = new Array("userName","userEmail","userSkills");
 function createAnEvent()
 {
     var validData = validateAnEventData();
+    console.log("I am here");
     if(validData)
     {
         var postPackage = generateCreateAnEventPostPackage();
@@ -16,7 +17,8 @@ function createAnEvent()
 			}
 			else
 			{
-	            $('#event-data-holder').html("<p class = 'eventServerResponse'> Your event has been created! Here is the exclusive url for your event: </p><br><p class='eventServerResponseURL'>"+window.location.protocol+"://"+window.location.host+data.responseStr+"</p>");
+	            document.getElementById("formCreationContainer").style.display = "none";
+                $('#event-data-holder').html("<p class = 'eventServerResponse'> Your event has been created! Here is the exclusive url for your event: </p><br><p class='eventServerResponseURL'>"+window.location.protocol+"://"+window.location.host+data.responseStr+"</p>");
 			}
         });
     }

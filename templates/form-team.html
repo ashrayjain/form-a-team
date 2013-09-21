@@ -9,11 +9,12 @@
     {{ Event.organiser }}
     {{ Event.description }}
     </div>
-    {% for teamId,team in Event.teams.iteritems() %}
+
+    {% for (teamId,team) in Event.teams %}
     	<ul team-id = "{{ teamId }}" class = "teams"> 
         	<li> Team {{ loop.index }} </li>
             {% if User.team == teamId %}
-            	<li id = "user" class = "editable" title = "{{ User.skills }}"> {{User.name }} </li>
+            	<li id = "user" class = "editable" title = "{{ member.skills }}"> {{member.name }} </li>
             {% endif %}
             {% for member in team %}
             		<li class = "non-editable" title = "{{ member.skills }}"> {{ member.name }} </li>
@@ -27,7 +28,7 @@
     {% endif %}        
    	{% for participant in Event.nonteam %}
     	<li class = "non-editable" title = "{{ participant.skills }}"> {{ participant.name }} 
-        	<button onclick="formTeam('{{ participant.url }}')">Request to make Team</button>
+        	<button onClick="formTeam('{{ participant.url }}')">Request to make Team</button>
         </li>
     {% endfor %}
     </ul>
@@ -45,8 +46,8 @@
 		hoverClass: "teamHighlight",
 		accept: "#user",
 		drop: function(event, ui){
-            joinTeam($(this).id);
-			}
+            joinTeam(event.target.id);            
+		}
 	});
 	
 	$("#user").draggable();
