@@ -122,7 +122,14 @@ function joinTeam(teamId)
     {
         var postPackage = generateUserJoinTeamPostPackage(teamId);
         $.post(postPackage,postPackage,function success(data){
-            alert("The request has been sent to the team leader of this team. Please wait for the response from them.");
+			if(data.response == "false")
+			{
+				alert(data.responseStr);
+			}
+			else
+			{
+            	alert("The request has been sent to the team leader of this team. Please wait for the response from them.");
+			}
         });
     }
 }
@@ -162,7 +169,14 @@ function jumpTeam(teamId)
 	$.post("/ajax/leaveTeam",postPackageLeaveTeamData);
 	var postPackageJoinTeamData = generateUserJoinTeamPostPackage(teamId);
 	$.post("/ajax/joinTeam",postPackageJoinTeamData,function success(data){
-		alert("You have been successfully removed from your previous team, and a new request has been sent over to your new team leader. Please wait for the response from your new leader.");
+		if(data.response == "false")
+		{
+			alert(data.responseStr);
+		}
+		else
+		{
+			alert("You have been successfully removed from your previous team, and a new request has been sent over to your new team leader. Please wait for the response from your new leader.");
+		}
 	});
 }
 
