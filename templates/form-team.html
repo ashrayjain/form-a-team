@@ -4,14 +4,28 @@
     <title>My Webpage</title>
 </head>
 <body>
-    {{ Event }}
-    <!--<ul id="navigation">-->
-    <!--{% for item in navigation %}-->
-        <!--<li><a href="{{ item.href }}">{{ item.caption }}</a></li>-->
-    <!--{% endfor %}-->
-    <!--</ul>-->
-
-    <!--<h1>My Webpage</h1>-->
-    <!--{{ a_variable }}-->
+    <div class = "banner">
+    {{ Event.name }}
+    {{ Event.organiser }}
+    {{ Event.description }}
+    </div>
+    
+    {% for (teamId,team) in Event.teams %}
+    	<ul team-id = "{{ teamId }}"> 
+        	<li> Team {{ loop.index }} </li>
+            {% for member in team.members %}
+            	(% if member != user %}
+            		<li class = "non-editable" title = "{{ member.skills }}"> {{ member.name }} </li>
+                {% else %}
+                	<li class = "editable"> {{member.name }} </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endfor %}
+   	<ul>
+   	{% for member in Event.nonteam %}
+    	<li class = "non-editable" title = "{{ member.skills }}"> {{ member.name }} <button onClick="formTeam({{ member.url }})">Request to make Team</button></li>
+    {% endfor %}
+    </ul>
 </body>
 </html>

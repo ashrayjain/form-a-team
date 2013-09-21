@@ -12,7 +12,14 @@ function createAnEvent()
     {
         var postPackage = generateCreateAnEventPostPackage();
         $.post("/ajax/createEvent", postPackage, function (data){
-            $('#event-data-holder').val("<p class = 'eventServerResponse'> Your event has been created! Here is the exclusive url for your event: </p><br><p class='eventServerResponseURL'>"+data+"</p>");
+			if(data.response == false)
+			{
+				alert(data.responseStr);
+			}
+			else
+			{
+	            $('#event-data-holder').html("<p class = 'eventServerResponse'> Your event has been created! Here is the exclusive url for your event: </p><br><p class='eventServerResponseURL'>"+window.location.protocol+"://"+window.location.host+data.responseStr+"</p>");
+			}
         });
     }
     return false;
@@ -81,9 +88,15 @@ function joinAnEvent()
     var validData = validateUserJoinAnEventData();
     if(validData)
     {
-        console.log("Hello");
         var postPackage = generateUserJoinAnEventPostPackage();
-        $.post("/ajax/joinEvent", postPackage);
+        $.post("/ajax/joinEvent", postPackage,function success(data){
+			console.Log(data);
+			if(data.response == true)
+			{
+				alert("You have been added to this event. Your unique url has been sent to your email.");
+				window.location = window.location.protocol+"://"+window.location.host+data.responseStr;
+			}
+		});
     }
     return false;
 }
@@ -110,9 +123,9 @@ function generateUserJoinAnEventPostPackage()
     var length = userJoinAnEventData.length;
     for(var i =0;i<length;i++)
     {
-        data[eventData[i]]= $('#'+eventData[i]).val();
+        data[userJoinAnEventData[i]]= $('#'+userJoinAnEventData[i]).val();
     }
-    data["eventURL"] = currentURL;
+    data["eventUrl"] = currentURL;
     return data;
 }
 
@@ -122,7 +135,14 @@ function joinTeam(teamId)
     {
         var postPackage = generateUserJoinTeamPostPackage(teamId);
         $.post(postPackage,postPackage,function success(data){
-            alert("The request has been sent to the team leader of this team. Please wait for the response from them.");
+			if(data.response == "false")
+			{
+				alert(data.responseStr);
+			}
+			else
+			{
+            	alert("The request has been sent to the team leader of this team. Please wait for the response from them.");
+			}
         });
     }
 }

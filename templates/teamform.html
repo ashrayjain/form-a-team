@@ -10,10 +10,14 @@
 </head>
 
 <body>
-
+<div class = "banner">
+    {{ Event.name }}
+    {{ Event.organiser }}
+    {{ Event.description }}
+</div>
 <form>
     <table class = "form-holder">
-        <caption>Create an Event</caption>
+        <caption>Join an Event</caption>
         <tr class = "form-row">
             <td class = "form-cell">Name</td>
             <td class = "form-cell"><input type="text" id="userName" class = "form-input-text" /></td>
