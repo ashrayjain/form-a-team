@@ -9,14 +9,13 @@
     {{ Event.organiser }}
     {{ Event.description }}
     </div>
-
     {% for teamId,team in Event.teams.iteritems() %}
     	<ul team-id = "{{ teamId }}" class = "teams"> 
         	<li> Team {{ loop.index }} </li>
             {% if User.team == teamId %}
-            	<li id = "user" class = "editable" title = "{{ member.skills }}"> {{member.name }} </li>
+            	<li id = "user" class = "editable" title = "{{ User.skills }}"> {{User.name }} </li>
             {% endif %}
-            {% for member in team.members %}
+            {% for member in team %}
             		<li class = "non-editable" title = "{{ member.skills }}"> {{ member.name }} </li>
             {% endfor %}
         </ul>
