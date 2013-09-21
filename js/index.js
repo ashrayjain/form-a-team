@@ -4,16 +4,18 @@ var eventData = new Array("eventName","eventOrganiser","eventOrganiserEmail","ev
 var userJoinEventData = new Array("userName","userEmail","userSkills");
 var currentURL = document.URL;
 
+
 function createEvent()
 {
     var validData = validateEventData();
     if(validData)
     {
         var postPackage = generateCreateEventPostPackage();
-        $.post("../ajax/createEvent",postPackage,function (data){
+        $.post("/ajax/createEvent", postPackage, function (data){
             $('#event-data-holder').val("<p class = 'eventServerResponse'> Your event has been created! Here is the exclusive url for your event: </p><br><p class='eventServerResponseURL'>"+data+"</p>");
         });
     }
+    return false;
 }
 
 function validateEventData()
@@ -67,7 +69,7 @@ function generateCreateEventPostPackage()
 {
     var data = {};
     var length = eventData.length;
-    for(var i =0;i<length;i++)
+    for(var i =0; i < length; i++)
     {
         data[eventData[i]]= $('#'+eventData[i]).val();
     }
@@ -80,7 +82,7 @@ function joinEvent()
     if(validData)
     {
         var postPackage = generateUserJoinEventPostPackage();
-        $.post("../ajax/joinEvent",postPackage);
+        $.post("/ajax/joinEvent",postPackage);
     }
 }
 
@@ -139,7 +141,7 @@ function leaveTeam()
     {
         var postPackage = generateUserLeaveTeamPostPackage();
 
-        $.post("../ajax/leaveTeam",postPackageData,function success(data){
+        $.post("/ajax/leaveTeam",postPackageData,function success(data){
             alert("You have been removed from the team!");
         });
     }
@@ -155,9 +157,9 @@ function generateUserLeaveTeamPostPackage()
 function jumpTeam(teamId)
 {
 	var postPackageLeaveTeamData = generateUserLeaveTeamPostPackage();
-	$.post("../ajax/leaveTeam",postPackageLeaveTeamData);
+	$.post("/ajax/leaveTeam",postPackageLeaveTeamData);
 	var postPackageJoinTeamData = generateUserJoinTeamPostPackage(teamId);
-	$.post("../ajax/joinTeam",postPackageJoinTeamData,function success(data){
+	$.post("/ajax/joinTeam",postPackageJoinTeamData,function success(data){
 		alert("You have been successfully removed from your previous team, and a new request has been sent over to your new team leader. Please wait for the response from your new leader.");
 	});
 }
