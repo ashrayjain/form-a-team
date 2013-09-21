@@ -23,11 +23,68 @@ class MainHandler(Handler):
     def get(self):
         self.render("form-team.html", Event="test")
 
-#class CreateEventHandler(Handler):
-#    def post(self):
-#        data = self.
+
+createEventAttributes = [
+    "eventName",
+    "eventOrganiser",
+    "eventOrganiserEmail",
+    "eventDesc",
+    "eventParticipantCount",
+    "eventTeamRangeLow",
+    "eventTeamRangeHigh"
+]
+class CreateEventHandler(Handler):
+    def post(self):
+        eventAttributes = {}
+        for attribute in createEventAttributes:
+            eventAttributes[attribute] = self.request.get(attribute)
+
+    def createEvent(self, eventAttributes):
+        event = Event(
+            name=eventAttributes["eventName"],
+            description=eventAttributes["eventDesc"],
+            organizer=eventAttributes["eventOrganiser"],
+            organizerEmail=eventAttributes["eventOrganiserEmail"],
+            maxTeamSize=eventAttributes["eventTeamRangeHigh"],
+            minTeamSize=eventAttributes["eventTeamRangeLow"],
+            maxParticipants=eventAttributes["eventParticipantCount"]
+        )
+        event.put()
+
+
+joinEventAttributes = [
+    "userName",
+    "userEmail",
+    "userSkills",
+    "eventUrl"
+]
+class JoinEventHandler(Handler):
+    def post(self):
+        joinAttributes = {}
+        for attribute in joinEventAttributes:
+            joinAttributes[attribute] = self.request.get(attribute)
+
+    def joinEvent(self, joinAttributes):
+        newUser = User(
+            name=joinAttributes["userName"],
+            email=joinAttributes["userEmail"],
+            skills=joinAttributes["userSkills"],
+            event=joinAttributes["eventUrl"],
+        )
+        newUser.put()
+
+class FormTeamHandler(Handler):
+    def post(self):
+        return
+
+class JoinTeamHandler(Handler):
+    def post(self):
+        return
 
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)
-#    ('/ajax/createEvent', CreateEventHandler)
+    ('/', MainHandler),
+    ('/ajax/createEvent', CreateEventHandler),
+    ('/ajax/joinEvent', JoinEventHandler),
+    ('/ajax/ft', FormTeamHandler),
+    ('/ajax/jt', JoinTeamHandler),
 ], debug=True)

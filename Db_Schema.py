@@ -8,14 +8,13 @@ class User(ndb.Model):
     skills = ndb.TextProperty()
     userURL = ndb.KeyProperty()
     event = ndb.StringProperty(required=True)
-    team = ndb.StringProperty(required=True)
+    team = ndb.StringProperty()
 
 
 class Team(ndb.Model):
     teamLeader = ndb.StringProperty(required=True)
     membersList = ndb.StringProperty(repeated=True)
     event = ndb.StringProperty(required=True)
-
 
 
 class Event(ndb.Model):
