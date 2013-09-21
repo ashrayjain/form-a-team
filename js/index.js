@@ -92,7 +92,12 @@ function joinAnEvent()
 			if(data.response == true)
 			{
 				alert("You have been added to this event. Your unique url has been sent to your email.");
-				window.location = window.location.protocol+"://"+window.location.host+data.responseStr;
+				var path = document.location.pathname;
+				path = path.substr(0,path.lastIndexOf("\\")+1);
+				path = path.replace(/\//gi, "");
+				path = path.replace(/%20/gi, " ");
+				path = path.replace(/\\/gi, "\/");
+				window.location = path+data.responseStr;
 			}
 		});
     }

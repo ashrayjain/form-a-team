@@ -11,7 +11,7 @@
     </div>
     
     {% for (teamId,team) in Event.teams %}
-    	<ul team-id = "{{ teamId }}"> 
+    	<ul team-id = "{{ teamId }}" class = "teams"> 
         	<li> Team {{ loop.index }} </li>
             {% for member in team.members %}
             	{% if member != user %}
@@ -23,9 +23,22 @@
         </ul>
     {% endfor %}
    	<ul>
-   	{% for member in Event.nonteam %}
-    	<li class = "non-editable" title = "{{ member.skills }}"> {{ member.name }} <button onClick="formTeam({{ member.url }})">Request to make Team</button></li>
+   	{% for participant in Event.nonteam %}
+    	<li class = "non-editable" title = "{{ member.skills }}"> {{ member.name }} 
+        {% if member != participant %}
+        	<button onClick="formTeam({{ member.url }})">Request to make Team</button>
+        {% endif %}
+        </li>
     {% endfor %}
     </ul>
 </body>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script type="text/javascript">
+	
+	$(".teams").droppable({
+		tolerance: "pointer",
+		
+	});
+</script>
 </html>
