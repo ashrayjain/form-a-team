@@ -189,9 +189,9 @@ function jumpTeam(teamId)
 	});
 }
 
-function formTeam()
+function formTeam(otherUserURL)
 {
-	var postPackageFormTeamData = generateUserFormTeamPostPackage();
+	var postPackageFormTeamData = generateUserFormTeamPostPackage(otherUserURL);
 	$.post("/ajax/formTeam",postPackageFormTeamData,function success(data){
 		alert("A request has been sent to the person regarding the formation of a new team. Please wait for his reply.");
 	});
