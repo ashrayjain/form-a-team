@@ -2,8 +2,6 @@
 
 var eventData = new Array("eventName","eventOrganiser","eventOrganiserEmail","eventDesc","eventParticipantCount","eventTeamRangeLow","eventTeamRangeHigh");
 var userJoinAnEventData = new Array("userName","userEmail","userSkills");
-var currentURL = document.URL;
-
 
 function createAnEvent()
 {
@@ -125,7 +123,7 @@ function generateUserJoinAnEventPostPackage()
     {
         data[userJoinAnEventData[i]]= $('#'+userJoinAnEventData[i]).val();
     }
-    data["eventUrl"] = currentURL;
+    data["eventUrl"] = currentEvent;
     return data;
 }
 
