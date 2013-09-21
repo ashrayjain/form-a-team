@@ -6,10 +6,10 @@ from google.appengine.api import mail
 import util
 import json
 
-
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir),
                                        autoescape=True)
+
 class Handler(webapp2.RequestHandler):
     """Handler Class with Utility functions for Templates"""
 
@@ -25,7 +25,7 @@ class Handler(webapp2.RequestHandler):
 
 class MainHandler(Handler):
     def get(self):
-        self.render("index.html", Event="test")
+        self.render("index.html")
 
 
 createEventAttributes = [
@@ -49,12 +49,13 @@ class CreateEventHandler(Handler):
             "responseStr": "Email not valid!"
         }
         if (mail.is_email_valid(eventAttributes["eventOrganiserEmail"])):
-            self.createEvent(eventAttributes)
+            newID = self.createEvent(eventAttributes)
             responseJSON["response"] = True
-            responseJSON["responseStr"] = ""
+            responseJSON["responseStr"] = "/events/"+newID
         self.response.out.write(json.dumps(responseJSON))
 
     def createEvent(self, eventAttributes):
+        eventID = util.getRandomEventURL()
         event = Event(
             name=eventAttributes["eventName"],
             description=eventAttributes["eventDesc"],
@@ -63,9 +64,10 @@ class CreateEventHandler(Handler):
             maxTeamSize=int(eventAttributes["eventTeamRangeHigh"]),
             minTeamSize=int(eventAttributes["eventTeamRangeLow"]),
             maxParticipants=int(eventAttributes["eventParticipantCount"]),
-            id = util.getRandomEventURL()            
+            id = eventID
         )
         event.put()
+        return eventID
 
 
 joinEventAttributes = [
@@ -86,20 +88,22 @@ class JoinEventHandler(Handler):
             "responseStr": "Email not valid!"
         }
         if (mail.is_email_valid(joinAttributes["userEmail"])):
-            self.joinEvent(joinAttributes)
+            newID = self.joinEvent(joinAttributes)
             responseJSON["response"] = True
-            responseJSON["responseStr"] = ""
+            responseJSON["responseStr"] = "/user/"+newID
         self.response.out.write(json.dumps(responseJSON))
 
     def joinEvent(self, joinAttributes):
+        newID = util.getRandomUserURL()
         newUser = User(
             name=joinAttributes["userName"],
             email=joinAttributes["userEmail"],
             skills=joinAttributes["userSkills"],
             event=joinAttributes["eventUrl"],
-            id=util.getRandomUserURL()            
+            id=newID
         )
         newUser.put()
+        return newID
 
 class FormTeamHandler(Handler):
     def post(self):
@@ -114,6 +118,7 @@ class FormTeamHandler(Handler):
     def executeFormTeamRequest(self, receiveURL):
         return
 
+
 class JoinTeamHandler(Handler):
     def post(self):
         joinTeamRequest = FormTeamRequest(
@@ -127,6 +132,52 @@ class LeaveTeamHandler(Handler):
     def post(self):
         return
 
+class UserPageHandler(Handler):
+    def get(self, userID):
+        print userID
+        user = User.get_by_id(userID)
+        print user
+        if user is None:
+            self.redirect('/')
+        else:
+            event = Event.get_by_id(user.event)
+            returnObj = {
+                "name": event.name,
+                "organiser": event.organizer,
+                "description": event.description,
+                "teams": {},
+                "nonteam": []
+            }
+            teams = Team.query("event =", event.name)
+            for team in teams:
+                returnObj["teams"][team.key.id()] = []
+                members = User.query("team =", team.key.id())
+                for member in members:
+                    returnObj["teams"][team.key.id()].append({
+                        "name": member.name,
+                        "email": member.email,
+                        "skills": member.skills,
+                        "url": member.key.id()
+                    })
+            self.render("form-team.html", Event=returnObj)
+
+class EventPageHandler(Handler):
+    def get(self, eventID):
+        event = Event.get_by_id(eventID)
+        if (event != None):
+            self.render("teamform.html", Event={"name": event.name, "organiser": event.organizer, "description": event.description})
+        else:
+            self.redirect("/")
+
+
+class JoinRequestResponseHandler(Handler):
+    def get(self):
+        return
+
+class FormRequestResponseHandler(Handler):
+    def get(self):
+        return
+
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
@@ -134,5 +185,9 @@ app = webapp2.WSGIApplication([
     ('/ajax/joinEvent', JoinEventHandler),
     ('/ajax/formTeam', FormTeamHandler),
     ('/ajax/joinTeam', JoinTeamHandler),
-    ('/ajax/leaveTeam', LeaveTeamHandler)
+    ('/ajax/leaveTeam', LeaveTeamHandler),
+    ('/user/([0-9a-z]{32})', UserPageHandler),
+    ('/events/([0-9a-z]{32})', EventPageHandler),
+    ('/joinRequest/', JoinRequestResponseHandler),
+    ('/formRequest/', FormRequestResponseHandler)
 ], debug=True)
