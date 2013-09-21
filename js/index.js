@@ -18,7 +18,7 @@ function createAnEvent()
 			}
 			else
 			{
-	            $('#event-data-holder').html("<p class = 'eventServerResponse'> Your event has been created! Here is the exclusive url for your event: </p><br><p class='eventServerResponseURL'>"+document.URL.protocol+"://"+document.URL.host+data+"</p>");
+	            $('#event-data-holder').html("<p class = 'eventServerResponse'> Your event has been created! Here is the exclusive url for your event: </p><br><p class='eventServerResponseURL'>"+window.location.protocol+"://"+window.location.host+data.responseSTR+"</p>");
 			}
         });
     }
