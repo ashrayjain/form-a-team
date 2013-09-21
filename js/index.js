@@ -1,16 +1,16 @@
 // JavaScript Document
 
 var eventData = new Array("eventName","eventOrganiser","eventOrganiserEmail","eventDesc","eventParticipantCount","eventTeamRangeLow","eventTeamRangeHigh");
-var userJoinEventData = new Array("userName","userEmail","userSkills");
+var userJoinAnEventData = new Array("userName","userEmail","userSkills");
 var currentURL = document.URL;
 
 
-function createEvent()
+function createAnEvent()
 {
-    var validData = validateEventData();
+    var validData = validateAnEventData();
     if(validData)
     {
-        var postPackage = generateCreateEventPostPackage();
+        var postPackage = generateCreateAnEventPostPackage();
         $.post("/ajax/createEvent", postPackage, function (data){
             $('#event-data-holder').val("<p class = 'eventServerResponse'> Your event has been created! Here is the exclusive url for your event: </p><br><p class='eventServerResponseURL'>"+data+"</p>");
         });
@@ -18,7 +18,7 @@ function createEvent()
     return false;
 }
 
-function validateEventData()
+function validateAnEventData()
 {
     var length = eventData.length;
     var flag = true;
@@ -65,7 +65,7 @@ function validateEventData()
     return flag;
 }
 
-function generateCreateEventPostPackage()
+function generateCreateAnEventPostPackage()
 {
     var data = {};
     var length = eventData.length;
@@ -76,23 +76,23 @@ function generateCreateEventPostPackage()
     return data;
 }
 
-function joinEvent()
+function joinAnEvent()
 {
-    var validData = validateUserJoinEventData();
+    var validData = validateUserJoinAnEventData();
     if(validData)
     {
-        var postPackage = generateUserJoinEventPostPackage();
+        var postPackage = generateUserJoinAnEventPostPackage();
         $.post("/ajax/joinEvent",postPackage);
     }
 }
 
-function validateUserJoinEventData()
+function validateUserJoinAnEventData()
 {
-    var length = userJoinEventData.length;
+    var length = userJoinAnEventData.length;
     var flag = true;
     for(var i =0; i< length;i++)
     {
-        if($('#'+userJoinEventData[i]).val() == "")
+        if($('#'+userJoinAnEventData[i]).val() == "")
         {
             //$('#'+fieldsToValidate[i]+"feedback").val("This field cannot be empty!");
             flag = false;
@@ -102,7 +102,7 @@ function validateUserJoinEventData()
     return flag;
 }
 
-function generateUserJoinEventPostPackage()
+function generateUserJoinAnEventPostPackage()
 {
     var data = {};
     var length = userJoinData.length;
