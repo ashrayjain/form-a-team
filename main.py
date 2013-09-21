@@ -2,6 +2,7 @@ import webapp2
 import jinja2
 import os
 from Db_Schema import *
+from google.appengine.api import mail
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir),
@@ -38,7 +39,18 @@ class CreateEventHandler(Handler):
         eventAttributes = {}
         for attribute in createEventAttributes:
             eventAttributes[attribute] = self.request.get(attribute)
-        self.createEvent(eventAttributes)
+
+        self.response.headers['Content-Type'] = "application/json"
+        responseJSON = {
+            "response": False,
+            "responseStr": "Email not valid!"
+        }
+        if(mail.is_email_valid(eventAttributes["eventOrganiserEmail"]))
+            self.createEvent(eventAttributes)
+            responseJSON["response"] = True
+            responseJSON["responseStr"] = ""
+
+        self.response.out.write(json.dumps(responseJSON))
 
     def createEvent(self, eventAttributes):
         event = Event(
@@ -65,7 +77,18 @@ class JoinEventHandler(Handler):
         joinAttributes = {}
         for attribute in joinEventAttributes:
             joinAttributes[attribute] = self.request.get(attribute)
-        self.joinEvent(joinAttributes)
+
+        self.response.headers['Content-Type'] = "application/json"
+
+        responseJSON = {
+            "response": False,
+            "responseStr": "Email not valid!"
+        }
+        if (mail.is_email_valid(joinAttributes["userEmail"]))
+            self.joinEvent(joinAttributes)
+            responseJSON["response"] = True
+            responseJSON["responseStr"] = ""
+        self.response.out.write(json.dumps(responseJSON))
 
     def joinEvent(self, joinAttributes):
         newUser = User(
@@ -83,6 +106,10 @@ class FormTeamHandler(Handler):
             receiveURL = self.request.get("receiveURL")
         )
         formTeamRequest.put()
+        self.executeFormTeamRequest(receiveURL)
+
+    def executeFormTeamRequest(self, receiveURL):
+        if not mail.is_email_valid()
 
 class JoinTeamHandler(Handler):
     def post(self):
