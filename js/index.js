@@ -154,7 +154,7 @@ function generateUserJoinTeamPostPackage(teamId)
 {
     data = {};
 
-    data["userURL"] = currentURL;
+    data["userURL"] = currentUser;
     data["teamID"] = teamId;
 
     return data;
@@ -175,7 +175,7 @@ function leaveTeam()
 function generateUserLeaveTeamPostPackage()
 {
     data = {};
-    data["userURL"] = currentURL;
+    data["userURL"] = currentUser;
     return data;
 }
 
@@ -189,9 +189,9 @@ function jumpTeam(teamId)
 	});
 }
 
-function formTeam()
+function formTeam(otherUserURL)
 {
-	var postPackageFormTeamData = generateUserFormTeamPostPackage();
+	var postPackageFormTeamData = generateUserFormTeamPostPackage(otherUserURL);
 	$.post("/ajax/formTeam",postPackageFormTeamData,function success(data){
 		alert("A request has been sent to the person regarding the formation of a new team. Please wait for his reply.");
 	});
@@ -201,7 +201,7 @@ function generateUserFormTeamPostPackage(otherUserURL)
 {
 	data = {};
 	
-	data["senderURL"] = document.URL;
+	data["senderURL"] = currentUser;
 	data["receiverURL"] = otherUserURL;
 	
 	return data;

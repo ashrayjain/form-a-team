@@ -9,12 +9,12 @@
     {{ Event.organiser }}
     {{ Event.description }}
     </div>
-    {{ Event.nonteam }}
+
     {% for (teamId,team) in Event.teams %}
     	<ul team-id = "{{ teamId }}" class = "teams"> 
         	<li> Team {{ loop.index }} </li>
             {% if User.team == teamId %}
-            	<li class = "editable" title = "{{ member.skills }}"> {{member.name }} </li>
+            	<li id = "user" class = "editable" title = "{{ member.skills }}"> {{member.name }} </li>
             {% endif %}
             {% for member in team.members %}
             		<li class = "non-editable" title = "{{ member.skills }}"> {{ member.name }} </li>
@@ -22,26 +22,33 @@
         </ul>
     {% endfor %}
    	<ul>
+    {% if User.team == "" %}
+    <li id = "user" class="editable" title="{{ User.skills }}"> {{ User.name }}
+    </li>
+    {% endif %}        
    	{% for participant in Event.nonteam %}
-    	{% if User.team == "" %}
-    	<li class = "non-editable" title = "{{ participant.skills }}"> {{ participant.name }}
-        </li>
-        {% endif %}
     	<li class = "non-editable" title = "{{ participant.skills }}"> {{ participant.name }} 
         	<button onClick="formTeam({{ participant.url }})">Request to make Team</button>
         </li>
     {% endfor %}
     </ul>
 </body>
+<script>
+	var currentUser = "{{ User.url }}";
+</script>
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script src="../js/index.js"></script>
 <script type="text/javascript">
 	
 	$(".teams").droppable({
 		tolerance: "pointer",
-		hoverClass: "teamHighlight"
+		hoverClass: "teamHighlight",
+		accept: "#user",
+		drop: function(event, ui){
+			}
 	});
 	
-	$("")
+	$("#user").draggable();
 </script>
 </html>

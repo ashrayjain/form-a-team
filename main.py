@@ -107,13 +107,15 @@ class JoinEventHandler(Handler):
 
 class FormTeamHandler(Handler):
     def post(self):
+        newID = getRandomFormTeamURL()
         formTeamRequest = FormTeamRequest(
             senderURL = self.request.get("senderURL"),
             receiveURL = self.request.get("receiveURL"),
-            id=getRandomFormTeamURL()            
+            id=newID
         )
         formTeamRequest.put()
         self.executeFormTeamRequest(receiveURL)
+        self.response.out.write(newID)
 
     def executeFormTeamRequest(self, receiveURL):
         return
@@ -121,16 +123,21 @@ class FormTeamHandler(Handler):
 
 class JoinTeamHandler(Handler):
     def post(self):
+        newID = util.getRandomJoinTeamURL()
         joinTeamRequest = FormTeamRequest(
             userURL=self.request.get("userURL"),
             teamToJoin=self.request.get("teamID"),
-            id=util.getRandomJoinTeamURL()            
+            id=newID
         )
         joinTeamRequest.put()
+        self.response.out.write(newID)
 
 class LeaveTeamHandler(Handler):
     def post(self):
-        return
+        userID = self.request.get("userURL")
+        userObj = User.get_by_id(userID)
+        if userObj != None:
+            userObj.team = None
 
 class UserPageHandler(Handler):
     def get(self, userID):
@@ -161,15 +168,31 @@ class UserPageHandler(Handler):
                         "url": member.key.id()
                     })
 
+            print returnObj["teams"]
+            for (teamID, members) in returnObj["teams"]:
+                returnObj["teams"][teamID] = [member for member in members if member["url"]!=userID]
+            print returnObj["teams"]
+
             independentUsers = User.query(ndb.AND(User.event == user.event, User.team == None))
-            for user in independentUsers:
+            for independentUser in independentUsers:
                 returnObj["nonteam"].append({
-                        "name": user.name,
-                        "email": user.email,
-                        "skills": user.skills,
-                        "url": user.key.id()
+                        "name": independentUser.name,
+                        "email": independentUser.email,
+                        "skills": independentUser.skills,
+                        "url": independentUser.key.id()
                     })
-            self.render("form-team.html", Event=returnObj)
+
+            print returnObj["nonteam"]
+            returnObj["nonteam"] = [member for member in returnObj["nonteam"] if member["url"] != userID ]
+            print returnObj["nonteam"]
+
+            self.render("form-team.html", Event=returnObj, User={
+                "name": user.name,
+                "email": user.email,
+                "skills": user.skills,
+                "team": "" if user.team == None else user.team,
+                "event": user.event
+            })
 
 class EventPageHandler(Handler):
     def get(self, eventID):
@@ -181,12 +204,16 @@ class EventPageHandler(Handler):
 
 
 class JoinRequestResponseHandler(Handler):
-    def get(self):
+    def get(self, requestID):
+        joinRequest = JoinTeamRequest.get_by_id(requestID)
         return
 
+
 class FormRequestResponseHandler(Handler):
-    def get(self):
+    def get(self, requestID):
+        formRequest = FormTeamRequest.get_by_id(requestID)
         return
+
 
 
 app = webapp2.WSGIApplication([
@@ -198,6 +225,6 @@ app = webapp2.WSGIApplication([
     ('/ajax/leaveTeam', LeaveTeamHandler),
     ('/user/([0-9a-z]{32})', UserPageHandler),
     ('/events/([0-9a-z]{32})', EventPageHandler),
-    ('/joinRequest/', JoinRequestResponseHandler),
-    ('/formRequest/', FormRequestResponseHandler)
+    ('/joinRequest/([0-9a-z]{32})', JoinRequestResponseHandler),
+    ('/formRequest/([0-9a-z]{32})', FormRequestResponseHandler)
 ], debug=True)
