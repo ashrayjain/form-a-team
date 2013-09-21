@@ -3,44 +3,44 @@
 
 .form-holder
 {
-	width: 1000px;
+    width: 1000px;
 }
 
 .form-row
 {
-	height: 50px;
-	font-size: 16px;
+    height: 50px;
+    font-size: 16px;
 }
 
 .form-cell
 {
-	vertical-align: middle;
+    vertical-align: middle;
 }
 
 .form-input-text
 {
-	height: 100%;
-	min-width: 250px;
-	width: 100%;
-	padding-left: 5px;
-	padding-right: 5px;
-	border-top: 0px;
-	border-left: 0px;
-	border-right: thin solid black;
-	border-bottom: thin solid black;
+    height: 100%;
+    min-width: 250px;
+    width: 100%;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: thin solid black;
+    border-bottom: thin solid black;
 }
 
 .form-input-number
 {
-	height:90%;
-	width: 85px;
-	width: 40%;
-	padding-left: 5px;
-	padding-right: 5px;
-	border-top: 0px;
-	border-left: 0px;
-	border-right: thin solid black;
-	border-bottom: thin solid black;
+    height:90%;
+    width: 85px;
+    width: 40%;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: thin solid black;
+    border-bottom: thin solid black;
 }
 
 .eventServerResponse
