@@ -110,7 +110,7 @@ function generateUserJoinAnEventPostPackage()
     var length = userJoinAnEventData.length;
     for(var i =0;i<length;i++)
     {
-        data[eventData[i]]= $('#'+eventData[i]).val();
+        data[userJoinAnEventData[i]]= $('#'+userJoinAnEventData[i]).val();
     }
     data["eventURL"] = currentURL;
     return data;
