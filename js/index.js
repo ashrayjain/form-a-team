@@ -88,9 +88,14 @@ function joinAnEvent()
     var validData = validateUserJoinAnEventData();
     if(validData)
     {
-        console.log("Hello");
         var postPackage = generateUserJoinAnEventPostPackage();
-        $.post("/ajax/joinEvent", postPackage);
+        $.post("/ajax/joinEvent", postPackage,function success(data){
+			if(data.response == "true")
+			{
+				alert("You have been added to this event. Your unique url has been sent to your email.");
+				window.location(window.location.protocol+"://"+window.location.host+data.responseStr);
+			}
+		});
     }
     return false;
 }
