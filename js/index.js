@@ -112,7 +112,7 @@ function generateUserJoinAnEventPostPackage()
     {
         data[userJoinAnEventData[i]]= $('#'+userJoinAnEventData[i]).val();
     }
-    data["eventURL"] = currentURL;
+    data["eventUrl"] = currentURL;
     return data;
 }
 
