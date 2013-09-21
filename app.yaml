@@ -12,8 +12,17 @@ handlers:
 - url: /css
   static_dir: css
 
+- url: /css/images
+  static_dir: css/images
+
 - url: /js
   static_dir: js
+
+- url: /img
+  static_dir: img
+
+- url: /templates/images
+  static_dir: templates/images
 
 - url: .*
   script: main.app

@@ -22,7 +22,7 @@ class Handler(webapp2.RequestHandler):
 
 class MainHandler(Handler):
     def get(self):
-        self.render("teamform.html", Event="test")
+        self.render("index.html", Event="test")
 
 
 createEventAttributes = [
