@@ -4,32 +4,95 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <!-- <link rel="stylesheet" href="../css/bootstrap.css"  type="text/css"/> -->
      <link rel="stylesheet" href="../css/index.css" />
-    <!--<link rel="stylesheet" href="../css/jquery.mobile-1.3.2.css" />-->
-    <!--<link rel="stylesheet" href="../css/style.css" />-->
-    <!-- <link rel="stylesheet"  href="css/themes/default/jquery.mobile-1.3.2.min.css"> -->
-    <!-- <link rel="stylesheet" href="demos/_assets/css/jqm-demos.css"> -->
-    <!-- <link rel="shortcut icon" href="demos/_assets/favicon.ico"> -->
-    <!--<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">-->
-    <!-- <link rel="stylesheet" href="../css/application.css" /> -->
-    <!-- <link rel="stylesheet" href="../css/client.css" /> -->
-    <!-- <link rel="stylesheet" href="../css/scaffolds.css" /> -->
-    <!-- <link rel="stylesheet" href="../css/trips.css" /> -->
-    <!-- <link rel="stylesheet" href="../css/users.css" /> -->
+    <!-- <link rel="stylesheet" href="../css/jquery.mobile-1.3.2.css" /> -->
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
+
+    
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+    
     <title>Teamformers</title>
 </head>
 
-<body>
-<div data-role="page" id="splash" data-theme="d">
-  <div data-role="content">
+<body id="body" background="../img/bg-image.jpg">
+<!-- <div data-role="page" id="splash" data-theme="d">
+  <div data-role="content"> -->
+
     <h1 class='logo'>Form a Team</h1>
 
-    <a href="javascript:void(0)" id="splash-btn" data-role="button" data-icon="arrow-r" data-iconpos="right" data-theme="e">Create an Event</a>
+    <br />
+    <br />
+
+    <div class="row" id = "createEventButton">
+        <div class="span6" style="text-align:center">
+    
+            <a href="#" class="btn btn-primary btn-lg" onClick="displayFormForCreateEvent()">Create an Event!</a>
+    
+        </div>
+    </div>
+
+    <br />
+
+    <div class="container" id="formCreationContainer" style="display:none;">
+        <div class="row">
+            <div class="span12">
+                <form id="createEventForm" role="form">
+                    <div class="span6" style="text-align:center">
+                        <table class = "form-holder">
+                            <!-- <caption>Create an Event</caption> -->
+                            
+                            <tr class = "form-row">
+                                <td class = "form-cell">Name of the event</td>
+                                <td class = "form-cell"><input type="text" id="eventName" class = "form-input-text" /></td>
+                            </tr>
+                            <tr class = "form-row">
+                                <td class = "form-cell">Organiser</td>
+                                <td class = "form-cell"><input type="text" id="eventOrganiser" class = "form-input-text" /></td>
+                            </tr>
+                            <tr class = "form-row">
+                                <td class = "form-cell">Email</td>
+                                <td class = "form-cell"><input type="text" id="eventOrganiserEmail" class = "form-input-text" /></td>
+                            </tr>
+                            <tr class = "form-row">
+                                <td class = "form-cell">Description</td>
+                                <td class = "form-cell"><input type="text" id="eventDesc" class = "form-input-text" title="Test" /></td>
+                            </tr>
+                            <tr class = "form-row">
+                                <td class = "form-cell">Total Number of Participants</td>
+                                <td class = "form-cell"><input type="text" id="eventParticipantCount" pattern="[0-9]{0,9}" class = "form-input-text" /></td>
+                            </tr>
+                            <tr class = "form-row">
+                                <td class = "form-cell">Number of members in each team</td>
+                                <td class = "form-cell">From: <input type="text" id = "eventTeamRangeLow" pattern="[0-9]+" class = "form-input-number" /></td>
+                            </tr>
+                            <tr class="form-row">
+                                <td class="form-cell"></td>
+                                <td class="form-cell">To: <input type="text" id="eventTeamRangeHigh" pattern="[0-9]+" class = "form-input-number" /></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                <input type="submit" onclick="return createAnEvent();"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                 </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function displayFormForCreateEvent() {
+            document.getElementById("createEventButton").parentNode.removeChild(document.getElementById("createEventButton"));
+            document.getElementById("formCreationContainer").style.display = 'block';
+        }
+    </script>
 
 
-    <h3><a href="#about">About</a>|<a href="#terms">Terms</a></h3>
-  </div>
-</div>
-<div id="event-data-holder">
+
+
+<!-- <div id="event-data-holder">
     <form>
     <table class = "form-holder">
         <caption>Create an Event</caption>
@@ -72,10 +135,6 @@
 <!-- <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script> -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 <script src="../js/index.js"></script>
-<!-- <script src="js/bootstrap.js"></script> -->
-<!-- <script src="js/jquery.js"></script> -->
-<!-- <script src="demos/_assets/js/index.js"></script> -->
-<!-- <script src="js/jquery.mobile-1.3.2.min.js"></script> -->
-<script src="js/jquery.mobile-1.3.2.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -1,6 +1,10 @@
 @charset "utf-8";
 /* CSS Document */
 
+#formCreationContainer {
+    padding:50px;
+}
+
 .form-holder
 {
     width: 1000px;
@@ -10,6 +14,7 @@
 {
     height: 50px;
     font-size: 16px;
+
 }
 
 .form-cell
