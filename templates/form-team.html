@@ -10,7 +10,7 @@
     {{ Event.description }}
     </div>
 
-    {% for (teamId,team) in Event.teams %}
+    {% for teamId,team in Event.teams.iteritems() %}
     	<ul team-id = "{{ teamId }}" class = "teams"> 
         	<li> Team {{ loop.index }} </li>
             {% if User.team == teamId %}
@@ -28,7 +28,7 @@
     {% endif %}        
    	{% for participant in Event.nonteam %}
     	<li class = "non-editable" title = "{{ participant.skills }}"> {{ participant.name }} 
-        	<button onClick="formTeam({{ participant.url }})">Request to make Team</button>
+        	<button onclick="formTeam('{{ participant.url }}')">Request to make Team</button>
         </li>
     {% endfor %}
     </ul>
@@ -46,6 +46,7 @@
 		hoverClass: "teamHighlight",
 		accept: "#user",
 		drop: function(event, ui){
+            joinTeam($(this).id);
 			}
 	});
 	

@@ -192,15 +192,16 @@ function jumpTeam(teamId)
 function formTeam(otherUserURL)
 {
 	var postPackageFormTeamData = generateUserFormTeamPostPackage(otherUserURL);
+    console.log(postPackageFormTeamData);
 	$.post("/ajax/formTeam",postPackageFormTeamData,function success(data){
-		alert("A request has been sent to the person regarding the formation of a new team. Please wait for his reply.");
+		alert("A request has been sent to the person regarding the formation of a new team. Please wait for his reply." + data);
 	});
 }
 
 function generateUserFormTeamPostPackage(otherUserURL)
 {
 	data = {};
-	
+
 	data["senderURL"] = currentUser;
 	data["receiverURL"] = otherUserURL;
 	

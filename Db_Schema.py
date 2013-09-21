@@ -12,7 +12,6 @@ class User(ndb.Model):
 
 class Team(ndb.Model):
     teamLeader = ndb.StringProperty(required=True)
-    membersList = ndb.StringProperty(repeated=True)
     event = ndb.StringProperty(required=True)
 
 
@@ -24,7 +23,6 @@ class Event(ndb.Model):
     maxTeamSize = ndb.IntegerProperty(required=True)
     minTeamSize = ndb.IntegerProperty(required=True)
     maxParticipants = ndb.IntegerProperty(required=True)
-    teamsList = ndb.StringProperty(repeated=True)
 
 class JoinTeamRequest(ndb.Model):
     userURL = ndb.StringProperty(required=True)

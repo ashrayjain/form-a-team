@@ -107,15 +107,13 @@ class JoinEventHandler(Handler):
 
 class FormTeamHandler(Handler):
     def post(self):
-        newID = getRandomFormTeamURL()
+        newID = util.getRandomFormTeamURL()
         formTeamRequest = FormTeamRequest(
             senderURL = self.request.get("senderURL"),
-            receiveURL = self.request.get("receiveURL"),
+            receiverURL = self.request.get("receiverURL"),
             id=newID
         )
         formTeamRequest.put()
-        self.executeFormTeamRequest(receiveURL)
-        self.response.out.write(newID)
 
     def executeFormTeamRequest(self, receiveURL):
         return
@@ -158,10 +156,11 @@ class UserPageHandler(Handler):
             teams = Team.query(Team.event == user.event)
             print teams
             for team in teams:
-                returnObj["teams"][team.key.id()] = []
-                members = User.query(User.team == team.key.id())
+                teamID = hex(team.key.id())
+                returnObj["teams"][teamID] = []
+                members = User.query(User.team == teamID)
                 for member in members:
-                    returnObj["teams"][team.key.id()].append({
+                    returnObj["teams"][teamID].append({
                         "name": member.name,
                         "email": member.email,
                         "skills": member.skills,
@@ -169,7 +168,7 @@ class UserPageHandler(Handler):
                     })
 
             print returnObj["teams"]
-            for (teamID, members) in returnObj["teams"]:
+            for teamID, members in returnObj["teams"].iteritems():
                 returnObj["teams"][teamID] = [member for member in members if member["url"]!=userID]
             print returnObj["teams"]
 
@@ -191,7 +190,8 @@ class UserPageHandler(Handler):
                 "email": user.email,
                 "skills": user.skills,
                 "team": "" if user.team == None else user.team,
-                "event": user.event
+                "event": user.event,
+                "url": userID
             })
 
 class EventPageHandler(Handler):
@@ -205,16 +205,34 @@ class EventPageHandler(Handler):
 
 class JoinRequestResponseHandler(Handler):
     def get(self, requestID):
+        answer = self.request.get("response")
         joinRequest = JoinTeamRequest.get_by_id(requestID)
-        return
+        if joinRequest != None and (answer == "y" or answer == "n"):
+            if answer == "y":
+                user = User.get_by_id(joinRequest.userURL)
+                user.team = joinRequest.teamToJoin
+                user.put()
+                self.response.out.write("Team Joining Request Approved! Thanks!")
+            else:
+                joinRequest.key.delete()
+                self.response.out.write("Team Joining Request Declined!")
 
 
 class FormRequestResponseHandler(Handler):
     def get(self, requestID):
+        answer = self.request.get("response")
         formRequest = FormTeamRequest.get_by_id(requestID)
-        return
-
-
+        if formRequest != None and (answer=="y" or answer=="n"):
+            if answer=="y":
+                users = ndb.get_multi([ndb.Key(User, formRequest.senderURL), ndb.Key(User, formRequest.receiverURL)])
+                newTeam = Team(teamLeader=users[0].key.id(), event=users[0].event)
+                newTeam.put()
+                for user in users:
+                    user.team = hex(newTeam.key.id())
+                self.response.out.write("Team Forming Request Approved! Thanks!")
+            else:
+                formRequest.key.delete()
+                self.response.out.write("Team Forming Request Declined!")
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
