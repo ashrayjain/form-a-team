@@ -24,9 +24,9 @@
     {% endfor %}
    	<ul>
    	{% for participant in Event.nonteam %}
-    	<li class = "non-editable" title = "{{ member.skills }}"> {{ member.name }} 
-        {% if member != participant %}
-        	<button onClick="formTeam({{ member.url }})">Request to make Team</button>
+    	<li class = "non-editable" title = "{{ participant.skills }}"> {{ participant.name }} 
+        {% if user != participant %}
+        	<button onClick="formTeam({{ participant.url }})">Request to make Team</button>
         {% endif %}
         </li>
     {% endfor %}
@@ -38,7 +38,7 @@
 	
 	$(".teams").droppable({
 		tolerance: "pointer",
-		
+		hoverClass: "teamHighlight"
 	});
 </script>
 </html>
