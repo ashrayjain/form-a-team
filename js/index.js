@@ -93,7 +93,7 @@ function joinAnEvent()
 			if(data.response == "true")
 			{
 				alert("You have been added to this event. Your unique url has been sent to your email.");
-				window.location(window.location.protocol+"://"+window.location.host+data.responseStr);
+				window.location = window.location.protocol+"://"+window.location.host+data.responseStr;
 			}
 		});
     }
