@@ -88,20 +88,22 @@ class JoinEventHandler(Handler):
             "responseStr": "Email not valid!"
         }
         if (mail.is_email_valid(joinAttributes["userEmail"])):
-            self.joinEvent(joinAttributes)
+            newID = self.joinEvent(joinAttributes)
             responseJSON["response"] = True
-            responseJSON["responseStr"] = ""
+            responseJSON["responseStr"] = "/user/"+newID
         self.response.out.write(json.dumps(responseJSON))
 
     def joinEvent(self, joinAttributes):
+        newID = util.getRandomUserURL()
         newUser = User(
             name=joinAttributes["userName"],
             email=joinAttributes["userEmail"],
             skills=joinAttributes["userSkills"],
             event=joinAttributes["eventUrl"],
-            id=util.getRandomUserURL()            
+            id=newID
         )
         newUser.put()
+        return newID
 
 class FormTeamHandler(Handler):
     def post(self):
