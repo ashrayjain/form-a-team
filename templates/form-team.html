@@ -24,7 +24,7 @@
    	<ul>
    	{% for participant in Event.nonteam %}
     	{% if User.team == "" %}
-    	<li class = "non-editable" title = "{{ participant.skills }}"> {{ participant.name }}
+    	<li id = "user" class = "non-editable" title = "{{ participant.skills }}"> {{ participant.name }}
         </li>
         {% endif %}
     	<li class = "non-editable" title = "{{ participant.skills }}"> {{ participant.name }} 
@@ -33,15 +33,22 @@
     {% endfor %}
     </ul>
 </body>
+<script>
+	var currentUser = "{{ User.url }}";
+</script>
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script src="../js/index.js"></script>
 <script type="text/javascript">
 	
 	$(".teams").droppable({
 		tolerance: "pointer",
-		hoverClass: "teamHighlight"
+		hoverClass: "teamHighlight",
+		accept: "#user",
+		drop: function(event, ui){
+			}
 	});
 	
-	$("")
+	$("#user").draggable();
 </script>
 </html>

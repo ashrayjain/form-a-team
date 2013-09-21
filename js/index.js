@@ -154,7 +154,7 @@ function generateUserJoinTeamPostPackage(teamId)
 {
     data = {};
 
-    data["userURL"] = currentURL;
+    data["userURL"] = currentUser;
     data["teamID"] = teamId;
 
     return data;
@@ -175,7 +175,7 @@ function leaveTeam()
 function generateUserLeaveTeamPostPackage()
 {
     data = {};
-    data["userURL"] = currentURL;
+    data["userURL"] = currentUser;
     return data;
 }
 
@@ -201,7 +201,7 @@ function generateUserFormTeamPostPackage(otherUserURL)
 {
 	data = {};
 	
-	data["senderURL"] = document.URL;
+	data["senderURL"] = currentUser;
 	data["receiverURL"] = otherUserURL;
 	
 	return data;
