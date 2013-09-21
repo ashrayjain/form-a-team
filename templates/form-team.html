@@ -14,7 +14,7 @@
     	<ul team-id = "{{ teamId }}" class = "teams"> 
         	<li> Team {{ loop.index }} </li>
             {% if User.team == teamId %}
-            	<li class = "editable" title = "{{ member.skills }}"> {{member.name }} </li>
+            	<li id = "user" class = "editable" title = "{{ member.skills }}"> {{member.name }} </li>
             {% endif %}
             {% for member in team.members %}
             		<li class = "non-editable" title = "{{ member.skills }}"> {{ member.name }} </li>
@@ -23,7 +23,7 @@
     {% endfor %}
    	<ul>
     {% if User.team == "" %}
-    <li class="non-editable" title="{{ User.skills }}"> {{ User.name }}
+    <li id = "user" class="editable" title="{{ User.skills }}"> {{ User.name }}
     </li>
     {% endif %}        
    	{% for participant in Event.nonteam %}
