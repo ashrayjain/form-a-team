@@ -165,7 +165,7 @@ class EventPageHandler(Handler):
     def get(self, eventID):
         event = Event.get_by_id(eventID)
         if (event != None):
-            self.render("teamform.html", Event={"name": event.name, "organiser": event.organizer, "description": event.description})
+            self.render("teamform.html", Event={"name": event.name, "organiser": event.organizer, "description": event.description, "url": eventID})
         else:
             self.redirect("/")
 
