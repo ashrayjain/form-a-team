@@ -14,7 +14,11 @@
     	<ul> 
         	<li> Team {{ loop.index }} </li>
             {% for member in team.members %}
-            	<li mem-> {{ member.name }} </li>
+            	(% if member != user %}
+            		<li member-id = "{{ member.URL }}" class = "non-editable"> {{ member.name }} </li>
+                {% else %}
+                	<li member-id = "{{ member.URL }}" class = "editable"> {{member.name }} </li>
+                {% endif %}
             {% endfor %}
         </ul>
     {% endfor %}
