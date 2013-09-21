@@ -204,12 +204,16 @@ class EventPageHandler(Handler):
 
 
 class JoinRequestResponseHandler(Handler):
-    def get(self):
+    def get(self, requestID):
+        joinRequest = JoinTeamRequest.get_by_id(requestID)
         return
 
+
 class FormRequestResponseHandler(Handler):
-    def get(self):
+    def get(self, requestID):
+        formRequest = FormTeamRequest.get_by_id(requestID)
         return
+
 
 
 app = webapp2.WSGIApplication([
@@ -221,6 +225,6 @@ app = webapp2.WSGIApplication([
     ('/ajax/leaveTeam', LeaveTeamHandler),
     ('/user/([0-9a-z]{32})', UserPageHandler),
     ('/events/([0-9a-z]{32})', EventPageHandler),
-    ('/joinRequest/', JoinRequestResponseHandler),
-    ('/formRequest/', FormRequestResponseHandler)
+    ('/joinRequest/([0-9a-z]{32})', JoinRequestResponseHandler),
+    ('/formRequest/([0-9a-z]{32})', FormRequestResponseHandler)
 ], debug=True)

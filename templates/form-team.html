@@ -23,7 +23,7 @@
     {% endfor %}
    	<ul>
     {% if User.team == "" %}
-    <li class="non-editable" title="{{ participant.skills }}"> {{ participant.name }}
+    <li class="non-editable" title="{{ User.skills }}"> {{ User.name }}
     </li>
     {% endif %}        
    	{% for participant in Event.nonteam %}
