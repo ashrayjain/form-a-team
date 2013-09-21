@@ -165,3 +165,21 @@ function jumpTeam(teamId)
 		alert("You have been successfully removed from your previous team, and a new request has been sent over to your new team leader. Please wait for the response from your new leader.");
 	});
 }
+
+function formTeam()
+{
+	var postPackageFormTeamData = generateUserFormTeamPostPackage();
+	$.post("/ajax/formTeam",postPackageFormTeamData,function success(data){
+		alert("A request has been sent to the person regarding the formation of a new team. Please wait for his reply.");
+	});
+}
+
+function generateUserFormTeamPostPackage(otherUserURL)
+{
+	data = {};
+	
+	data["senderURL"] = document.URL;
+	data["receiverURL"] = otherUserURL;
+	
+	return data;
+}
