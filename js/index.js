@@ -81,9 +81,11 @@ function joinAnEvent()
     var validData = validateUserJoinAnEventData();
     if(validData)
     {
+        console.log("Hello");
         var postPackage = generateUserJoinAnEventPostPackage();
-        $.post("/ajax/joinEvent",postPackage);
+        $.post("/ajax/joinEvent", postPackage);
     }
+    return false;
 }
 
 function validateUserJoinAnEventData()
@@ -105,7 +107,7 @@ function validateUserJoinAnEventData()
 function generateUserJoinAnEventPostPackage()
 {
     var data = {};
-    var length = userJoinData.length;
+    var length = userJoinAnEventData.length;
     for(var i =0;i<length;i++)
     {
         data[eventData[i]]= $('#'+eventData[i]).val();

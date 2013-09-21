@@ -21,7 +21,7 @@ class Handler(webapp2.RequestHandler):
 
 class MainHandler(Handler):
     def get(self):
-        self.render("index.html", Event="test")
+        self.render("teamform.html", Event="test")
 
 
 createEventAttributes = [
@@ -38,6 +38,7 @@ class CreateEventHandler(Handler):
         eventAttributes = {}
         for attribute in createEventAttributes:
             eventAttributes[attribute] = self.request.get(attribute)
+        self.createEvent(eventAttributes)
 
     def createEvent(self, eventAttributes):
         event = Event(
@@ -45,10 +46,11 @@ class CreateEventHandler(Handler):
             description=eventAttributes["eventDesc"],
             organizer=eventAttributes["eventOrganiser"],
             organizerEmail=eventAttributes["eventOrganiserEmail"],
-            maxTeamSize=eventAttributes["eventTeamRangeHigh"],
-            minTeamSize=eventAttributes["eventTeamRangeLow"],
-            maxParticipants=eventAttributes["eventParticipantCount"]
+            maxTeamSize=int(eventAttributes["eventTeamRangeHigh"]),
+            minTeamSize=int(eventAttributes["eventTeamRangeLow"]),
+            maxParticipants=int(eventAttributes["eventParticipantCount"])
         )
+        print event
         event.put()
 
 
@@ -63,6 +65,7 @@ class JoinEventHandler(Handler):
         joinAttributes = {}
         for attribute in joinEventAttributes:
             joinAttributes[attribute] = self.request.get(attribute)
+        self.joinEvent(joinAttributes)
 
     def joinEvent(self, joinAttributes):
         newUser = User(
