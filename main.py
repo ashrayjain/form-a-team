@@ -21,7 +21,7 @@ class Handler(webapp2.RequestHandler):
 
 class MainHandler(Handler):
     def get(self):
-        self.render("form-team.html", Event="test")
+        self.render("index.html", Event="test")
 
 
 createEventAttributes = [
