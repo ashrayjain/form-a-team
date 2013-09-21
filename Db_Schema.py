@@ -31,10 +31,9 @@ class Event(ndb.Model):
 class JoinTeamRequest(ndb.Model):
     userURL = ndb.StringProperty(required=True)
     teamToJoin = ndb.IntegerProperty(required=True)
-    requestURL = ndb.KeyProperty()
+    #requestURL = ndb.KeyProperty()
 
 class FormTeamRequest(ndb.Model):
-    initiatorURL = ndb.StringProperty(required=True)
-    passiveUserURL = ndb.StringProperty(required=True)
-    eventURL = ndb.StringProperty(required=True)
-    requestURL = ndb.KeyProperty()
+    senderURL = ndb.StringProperty(required=True)
+    receiverURL = ndb.StringProperty(required=True)
+    #requestURL = ndb.KeyProperty()

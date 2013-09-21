@@ -78,16 +78,30 @@ class JoinEventHandler(Handler):
 
 class FormTeamHandler(Handler):
     def post(self):
-        return
+        formTeamRequest = FormTeamRequest(
+            senderURL = self.request.get("senderURL"),
+            receiveURL = self.request.get("receiveURL")
+        )
+        formTeamRequest.put()
 
 class JoinTeamHandler(Handler):
     def post(self):
+        joinTeamRequest = FormTeamRequest(
+            userURL=self.request.get("userURL"),
+            teamToJoin=self.request.get("teamID")
+        )
+        joinTeamRequest.put()
+
+class LeaveTeamHandler(Handler):
+    def post(self):
         return
+
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/ajax/createEvent', CreateEventHandler),
     ('/ajax/joinEvent', JoinEventHandler),
-    ('/ajax/ft', FormTeamHandler),
-    ('/ajax/jt', JoinTeamHandler),
+    ('/ajax/formTeam', FormTeamHandler),
+    ('/ajax/joinTeam', JoinTeamHandler),
+    ('/ajax/leaveTeam', LeaveTeamHandler)
 ], debug=True)
