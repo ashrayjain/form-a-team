@@ -140,24 +140,34 @@ class UserPageHandler(Handler):
         if user is None:
             self.redirect('/')
         else:
-            event = Event.get_by_id(user.event)
+            currentEvent = Event.get_by_id(user.event)
             returnObj = {
-                "name": event.name,
-                "organiser": event.organizer,
-                "description": event.description,
+                "name": currentEvent.name,
+                "organiser": currentEvent.organizer,
+                "description": currentEvent.description,
                 "teams": {},
                 "nonteam": []
             }
-            teams = Team.query("event =", event.name)
+            teams = Team.query(Team.event == user.event)
+            print teams
             for team in teams:
                 returnObj["teams"][team.key.id()] = []
-                members = User.query("team =", team.key.id())
+                members = User.query(User.team == team.key.id())
                 for member in members:
                     returnObj["teams"][team.key.id()].append({
                         "name": member.name,
                         "email": member.email,
                         "skills": member.skills,
                         "url": member.key.id()
+                    })
+
+            independentUsers = User.query(ndb.AND(User.event == user.event, User.team == None))
+            for user in independentUsers:
+                returnObj["nonteam"].append({
+                        "name": user.name,
+                        "email": user.email,
+                        "skills": user.skills,
+                        "url": user.key.id()
                     })
             self.render("form-team.html", Event=returnObj)
 

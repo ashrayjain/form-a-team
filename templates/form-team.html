@@ -9,7 +9,7 @@
     {{ Event.organiser }}
     {{ Event.description }}
     </div>
-    
+    {{ Event.nonteam }}
     {% for (teamId,team) in Event.teams %}
     	<ul team-id = "{{ teamId }}"> 
         	<li> Team {{ loop.index }} </li>
