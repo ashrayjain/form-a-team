@@ -1,6 +1,7 @@
 import webapp2
 import jinja2
 import os
+from Db_Schema import *
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir),
@@ -22,6 +23,11 @@ class MainHandler(Handler):
     def get(self):
         self.render("form-team.html", Event="test")
 
+#class CreateEventHandler(Handler):
+#    def post(self):
+#        data = self.
+
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
+#    ('/ajax/createEvent', CreateEventHandler)
 ], debug=True)
