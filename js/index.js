@@ -1,7 +1,7 @@
 // JavaScript Document
 
-var eventData = new array("eventName","eventOrganiser","eventOrganiserEmail","eventDesc","eventParticipantCount","eventTeamRangeLow","eventTeamRangeHigh");
-var userJoinEventData = new array("userName","userEmail","userSkills");
+var eventData = new Array("eventName","eventOrganiser","eventOrganiserEmail","eventDesc","eventParticipantCount","eventTeamRangeLow","eventTeamRangeHigh");
+var userJoinEventData = new Array("userName","userEmail","userSkills");
 var currentURL = document.URL;
 
 function createEvent()
@@ -148,8 +148,16 @@ function leaveTeam()
 function generateUserLeaveTeamPostPackage()
 {
     data = {};
-
     data["userURL"] = currentURL;
-
     return data;
+}
+
+function jumpTeam(teamId)
+{
+	var postPackageLeaveTeamData = generateUserLeaveTeamPostPackage();
+	$.post("../ajax/leaveTeam",postPackageLeaveTeamData);
+	var postPackageJoinTeamData = generateUserJoinTeamPostPackage(teamId);
+	$.post("../ajax/joinTeam",postPackageJoinTeamData,function success(data){
+		alert("You have been successfully removed from your previous team, and a new request has been sent over to your new team leader. Please wait for the response from your new leader.");
+	});
 }
