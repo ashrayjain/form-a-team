@@ -67,7 +67,20 @@ class CreateEventHandler(Handler):
             id = eventID
         )
         event.put()
+        message = mail.EmailMessage(
+            sender="FormATeam <>",
+            subject="Test Mail",
+            to="<shubhamjigoyal@gmail.com>",
+            body="""
+            Test Email:
+            :
+            :
+            :
+            """
+        )
+        message.send()
         return eventID
+
 
 
 joinEventAttributes = [
@@ -234,6 +247,7 @@ class FormRequestResponseHandler(Handler):
             else:
                 formRequest.key.delete()
                 self.response.out.write("Team Forming Request Declined!")
+
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
