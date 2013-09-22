@@ -10,28 +10,27 @@
 </head>
 
 <body id="teamformbody" background="../pics/bg.jpg">
-<div class = "banner">
-    {{ Event.name }}
-    {{ Event.organiser }}
-    {{ Event.description }}
-</div>
 <script type="text/javascript">
 	var currentEvent = "{{ Event.url }}";
 </script>
+     <h1 style="text-align:center;">{{ Event.name }}</h1>
+     <h3 style="text-align:center;">by</h3>
+     <h2 style="text-align:center;">{{ Event.organiser }}</h2>
+     <h3 style="text-align:center;"><i>{{ Event.description }}</i></h3>
      <div class="container" id="formContainerInJoinEventPage">
         <div class="row">
-            <div class="span12">
-                <form id="joinEventForm" role="form">
-                    <div class="span6" style="text-align:center">
+            <div class="span12 center">
+                <form id="joinEventForm" role="form" style="align: center;">
+                    <div class="span6 center" style="text-align:center">
                         <table class = "form-holder">
-                            <caption><h1 style="align: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Join the Event</h1></caption>
+                            <caption style="align: center;"><h2 style="align: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Join the Event</h1></caption>
                             <tr class = "form-row">
                                 <td class = "form-cell">Name</td>
-                                <td class = "form-cell"><input type="text" id="userName" class = "form-input-text" /></td>
+                                <td class = "form-cell"><input size="10" type="text" id="userName" class = "form-input-text" /></td>
                             </tr>
                             <tr class = "form-row">
                                 <td class = "form-cell">Email</td>
-                                <td class = "form-cell"><input type="text" id="userEmail" class = "form-input-text" /></td>
+                                <td class = "form-cell"><input size="10" type="text" id="userEmail" class = "form-input-text" /></td>
                             </tr>
                             <tr class = "form-row">
                                 <td class = "form-cell">Skills</td>
@@ -39,7 +38,7 @@
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <input type="submit" onclick="return joinAnEvent();"/>
+                                    <input style="margin-left: 100px; align: center;" type="submit" onclick="return joinAnEvent();"/>
                             </tr>
                         </table>
                     </div>
