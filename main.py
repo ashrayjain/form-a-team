@@ -203,12 +203,11 @@ class UserPageHandler(Handler):
                 "name": currentEvent.name,
                 "organiser": currentEvent.organizer,
                 "description": currentEvent.description,
-                "maxP": currentEvent.maxParticipants,
+                "maxP": currentEvent.maxTeamSize,
                 "teams": {},
                 "nonteam": []
             }
             teams = Team.query(Team.event == user.event)
-            print teams
             for team in teams:
                 teamID = str(team.key.id())
                 returnObj["teams"][teamID] = []
