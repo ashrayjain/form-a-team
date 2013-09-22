@@ -67,7 +67,18 @@ class CreateEventHandler(Handler):
             id = eventID
         )
         event.put()
+        mail.send_mail(sender="Form-A-Team Support <ashrayj11@gmail.com>",
+                       to="{0} <{1}>".format(eventAttributes["eventOrganiser"], eventAttributes["eventOrganiserEmail"]),
+                       subject="Your Event, {0} has been created".format(eventAttributes["eventName"]),
+                       body="""
+        Dear {0},
+
+        Your event, "{1}", has been successfully created.
+
+        Form-A-Team Support
+        """)
         return eventID
+
 
 
 joinEventAttributes = [
@@ -103,6 +114,17 @@ class JoinEventHandler(Handler):
             id=newID
         )
         newUser.put()
+        theEvent = Event.get_by_id(joinAttributes["eventUrl"])
+        mail.send_mail(sender="Form-A-Team Support <ashrayj11@gmail.com>",
+                       to="{0} <{1}>".format(joinAttributes["userName"], joinAttributes["userEmail"]),
+                       subject="{0} - Link for Forming Your Team".format(theEvent.name),
+                       body="""
+                Dear {0},
+
+                Your event, "{1}", has been successfully created.
+
+                Form-A-Team Support
+                """)
         return newID
 
 class FormTeamHandler(Handler):
@@ -114,9 +136,18 @@ class FormTeamHandler(Handler):
             id=newID
         )
         formTeamRequest.put()
+        user = User.get_by_id(self.request.get("receiverURL"))
+        if user != None:
+            mail.send_mail(sender="Form-A-Team Support <ashrayj11@gmail.com>",
+                           to="{0} <{1}>".format(user.name, user.email),
+                           subject="",
+                           body="""
+                            Dear {0},
 
-    def executeFormTeamRequest(self, receiveURL):
-        return
+                            Your event, "{1}", has been successfully created.
+
+                            Form-A-Team Support
+                            """)
 
 
 class JoinTeamHandler(Handler):
@@ -128,14 +159,36 @@ class JoinTeamHandler(Handler):
             id=newID
         )
         joinTeamRequest.put()
+        theTeam = Team.get_by_id(self.request.get("teamID"))
         self.response.out.write(newID)
+        mail.send_mail(sender="Form-A-Team Support <ashrayj11@gmail.com>",
+                       to="{0} <{1}>".format(joinAttributes["userName"], joinAttributes["userEmail"]),
+                       subject="{0} - Link for Forming Your Team".format(
+                           Event.get_by_id(joinAttributes["eventUrl"]).name),
+                       body="""
+                        Dear {0},
 
+                        Your event, "{1}", has been successfully created.
+
+                        Form-A-Team Support
+                        """)
 class LeaveTeamHandler(Handler):
     def post(self):
         userID = self.request.get("userURL")
         userObj = User.get_by_id(userID)
         if userObj != None:
             userObj.team = None
+        mail.send_mail(sender="Form-A-Team Support <ashrayj11@gmail.com>",
+                       to="{0} <{1}>".format(joinAttributes["userName"], joinAttributes["userEmail"]),
+                       subject="{0} - Link for Forming Your Team".format(
+                           Event.get_by_id(joinAttributes["eventUrl"]).name),
+                       body="""
+                        Dear {0},
+
+                        Your event, "{1}", has been successfully created.
+
+                        Form-A-Team Support
+                        """)
 
 class UserPageHandler(Handler):
     def get(self, userID):
@@ -150,6 +203,7 @@ class UserPageHandler(Handler):
                 "name": currentEvent.name,
                 "organiser": currentEvent.organizer,
                 "description": currentEvent.description,
+                "maxP": currentEvent.maxParticipants,
                 "teams": {},
                 "nonteam": []
             }
@@ -175,11 +229,11 @@ class UserPageHandler(Handler):
             independentUsers = User.query(ndb.AND(User.event == user.event, User.team == None))
             for independentUser in independentUsers:
                 returnObj["nonteam"].append({
-                        "name": independentUser.name,
-                        "email": independentUser.email,
-                        "skills": independentUser.skills,
-                        "url": independentUser.key.id()
-                    })
+                    "name": independentUser.name,
+                    "email": independentUser.email,
+                    "skills": independentUser.skills,
+                    "url": independentUser.key.id()
+                })
 
             print returnObj["nonteam"]
             returnObj["nonteam"] = [member for member in returnObj["nonteam"] if member["url"] != userID ]
@@ -216,6 +270,17 @@ class JoinRequestResponseHandler(Handler):
             else:
                 joinRequest.key.delete()
                 self.response.out.write("Team Joining Request Declined!")
+        mail.send_mail(sender="Form-A-Team Support <ashrayj11@gmail.com>",
+                       to="{0} <{1}>".format(joinAttributes["userName"], joinAttributes["userEmail"]),
+                       subject="{0} - Link for Forming Your Team".format(
+                           Event.get_by_id(joinAttributes["eventUrl"]).name),
+                       body="""
+                        Dear {0},
+
+                        Your event, "{1}", has been successfully created.
+
+                        Form-A-Team Support
+                        """)
 
 
 class FormRequestResponseHandler(Handler):
@@ -234,16 +299,28 @@ class FormRequestResponseHandler(Handler):
             else:
                 formRequest.key.delete()
                 self.response.out.write("Team Forming Request Declined!")
+        mail.send_mail(sender="Form-A-Team Support <ashrayj11@gmail.com>",
+                       to="{0} <{1}>".format(joinAttributes["userName"], joinAttributes["userEmail"]),
+                       subject="{0} - Link for Forming Your Team".format(
+                           Event.get_by_id(joinAttributes["eventUrl"]).name),
+                       body="""
+                        Dear {0},
+
+                        Your event, "{1}", has been successfully created.
+
+                        Form-A-Team Support
+                        """)
+
 
 app = webapp2.WSGIApplication([
-    ('/', MainHandler),
-    ('/ajax/createEvent', CreateEventHandler),
-    ('/ajax/joinEvent', JoinEventHandler),
-    ('/ajax/formTeam', FormTeamHandler),
-    ('/ajax/joinTeam', JoinTeamHandler),
-    ('/ajax/leaveTeam', LeaveTeamHandler),
-    ('/user/([0-9a-z]{32})', UserPageHandler),
-    ('/events/([0-9a-z]{32})', EventPageHandler),
-    ('/joinRequest/([0-9a-z]{32})', JoinRequestResponseHandler),
-    ('/formRequest/([0-9a-z]{32})', FormRequestResponseHandler)
-], debug=True)
+                                  ('/', MainHandler),
+                                  ('/ajax/createEvent', CreateEventHandler),
+                                  ('/ajax/joinEvent', JoinEventHandler),
+                                  ('/ajax/formTeam', FormTeamHandler),
+                                  ('/ajax/joinTeam', JoinTeamHandler),
+                                  ('/ajax/leaveTeam', LeaveTeamHandler),
+                                  ('/user/([0-9a-z]{32})', UserPageHandler),
+                                  ('/events/([0-9a-z]{32})', EventPageHandler),
+                                  ('/joinRequest/([0-9a-z]{32})', JoinRequestResponseHandler),
+                                  ('/formRequest/([0-9a-z]{32})', FormRequestResponseHandler)
+                              ], debug=True)

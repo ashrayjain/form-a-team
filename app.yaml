@@ -1,4 +1,4 @@
-application: formateam
+application: formateamnow
 version: 1
 runtime: python27
 api_version: 1
@@ -21,11 +21,11 @@ handlers:
 - url: /img
   static_dir: img
 
-- url: /templates/images
-  static_dir: templates/images
-
 - url: /pics
   static_dir: pics
+
+- url: /templates/images
+  static_dir: templates/images
 
 - url: .*
   script: main.app

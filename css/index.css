@@ -1,6 +1,8 @@
 @charset "utf-8";
 /* CSS Document */
 
+form { margin: 0 auto; }
+
 #formCreationContainer {
     padding:50px;
     align:center;
