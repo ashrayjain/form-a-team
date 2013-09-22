@@ -72,8 +72,15 @@ form { margin: 0 auto; }
 
 .eventServerResponse
 {
+	font-size:20px;
+	font-weight: bold;
 }
 
+.eventServerResponseURL
+{
+	font-size:24px;
+	font-weight: bolder;
+}
 body#teamformbody {
     background-repeat:no-repeat;
     background-size: 100%;
