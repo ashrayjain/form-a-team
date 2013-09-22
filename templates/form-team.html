@@ -1,6 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html lang="en">
 <head>
+    <link rel = "stylesheet" href="../css/index.css">
     <title>My Webpage</title>
 </head>
 <body>
@@ -11,15 +12,15 @@
     </div>
 
     {% for teamId, team in Event.teams.iteritems() %}
-    	<ul id = "{{ teamId }}" class = "teams">
-        	<li> Team {{ loop.index }} </li>
+    	<div id = "{{ teamId }}" class = "teams">
+        	<div> Team {{ loop.index }} </div>
             {% if User.team == teamId %}
-            	<li id = "user" class = "editable" title = "{{ User.skills }}"> {{ User.name }} </li>
+            	<div id = "user" class = "editable" title = "{{ User.skills }}"> {{ User.name }} </div>
             {% endif %}
             {% for member in team %}
-            		<li class = "non-editable" title = "{{ member.skills }}"> {{ member.name }} </li>
+            		<div class = "non-editable" title = "{{ member.skills }}"> {{ member.name }} </div>
             {% endfor %}
-        </ul>
+        </div>
     {% endfor %}
    	<ul>
     {% if User.team == "" %}

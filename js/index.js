@@ -18,7 +18,7 @@ function createAnEvent()
 			else
 			{
 	            document.getElementById("formCreationContainer").style.display = "none";
-                $('#event-data-holder').html("<p class = 'eventServerResponse'> Your event has been created! Here is the exclusive url for your event: </p><br><p class='eventServerResponseURL'>"+window.location.protocol+"://"+window.location.host+data.responseStr+"</p>");
+                $('#event-data-holder').html("<p class = 'eventServerResponse'> Your event has been created! Here is the exclusive url for your event: </p><br><p class='eventServerResponseURL'>"+window.location.protocol+"//"+window.location.host+data.responseStr+"</p>");
 			}
         });
     }
