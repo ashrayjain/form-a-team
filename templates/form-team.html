@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <link rel = "stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
     <title>My Webpage</title>
 </head>
 <body>
@@ -12,7 +13,11 @@
     </div>
 
     {% for teamId, team in Event.teams.iteritems() %}
-    	<div id = "{{ teamId }}" class = "teams">
+    	<div id = "{{ teamId }}" class = "teams"
+        {% if User.team != teamId %}
+        	class = "droppableTeam"
+        {% endif %}
+        >
         	<div> Team {{ loop.index }} </div>
             {% if User.team == teamId %}
             	<div id = "user" class = "editable" title = "{{ User.skills }}"> {{ User.name }} </div>
@@ -42,12 +47,22 @@
 <script src="../js/index.js"></script>
 <script type="text/javascript">
 	
-	$(".teams").droppable({
+	$(".droppableTeams").droppable({
 		tolerance: "pointer",
-		hoverClass: "teamHighlight",
+		hoverClass: "ui-state-active",
 		accept: "#user",
+		revert: 'invalid',
+		activeClass: "ui-state-hover",
 		drop: function(event, ui){
-            joinTeam($(this).attr('id'));
+			if(this == $(event.draggable).parent())
+			{
+				return;
+			}
+			else
+			{
+            	alert();
+				//joinTeam($(this).attr('id'));
+			}
 		}
 	});
 	
