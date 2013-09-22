@@ -79,33 +79,3 @@ body#teamformbody {
     background-size: 100%;
 }
 
-.teams
-{
-    display: inline-block;
-	width:100%;
-}
-
-.editable
-{
-	background-color: rgb(204,102,102);
-    border: thin solid black;
-	width: 100%;
-	height: 50px;
-}
-
-.non-editable
-{
-	background-color: rgb(200,200,200);
-    border: thin solid grey;
-	height: 50px;
-}
-
-#user
-{
-	cursor: pointer;
-}
-
-.newTeamRequest
-{
-	background-color:#CC0;
-}
