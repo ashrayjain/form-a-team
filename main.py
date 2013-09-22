@@ -74,12 +74,13 @@ class CreateEventHandler(Handler):
         Dear {0},
 
         Your event, "{1}", has been successfully created.
+        You may now distribute the following to the participants-
+
+        {1}
 
         Form-A-Team Support
-        """)
+        """.format(eventAttributes["eventOrganiser"], "http://formateamnow.appspot.com/events/"+eventID))
         return eventID
-
-
 
 joinEventAttributes = [
     "userName",
@@ -121,10 +122,15 @@ class JoinEventHandler(Handler):
                        body="""
                 Dear {0},
 
-                Your event, "{1}", has been successfully created.
+                You may now join or form teams for the event, {1}, at the following url-
+
+                {2}
+
+                Please be advised that this url is specifically created for you and must be kept
+                confidential for your own privacy.
 
                 Form-A-Team Support
-                """)
+                """.format(joinAttributes["userName"], theEvent.name, "http://formateamnow.appspot.com/user/"+newID))
         return newID
 
 class FormTeamHandler(Handler):
@@ -137,18 +143,34 @@ class FormTeamHandler(Handler):
         )
         formTeamRequest.put()
         user = User.get_by_id(self.request.get("receiverURL"))
+        sender = User.get_by_id(self.request.get("senderURL"))
+        theEvent = Event.get_by_id(user.event)
         if user != None:
             mail.send_mail(sender="Form-A-Team Support <ashrayj11@gmail.com>",
                            to="{0} <{1}>".format(user.name, user.email),
-                           subject="",
+                           subject="Someone wants to team up for {0}".format(theEvent.name),
                            body="""
                             Dear {0},
 
-                            Your event, "{1}", has been successfully created.
+                            {1} would like to team up with you for {2}.
+
+                            {1} is a fellow participant for this event and has the following skills/interests-
+                            {3}
+
+                            You can correspond with {1} at {4} to discuss this further.
+
+                            If you would like to accept this request, please click on one of the following links-
+
+                            ACCEPT
+                            {5}
+
+                            DECLINE
+                            {6}
 
                             Form-A-Team Support
-                            """)
-
+                            """.format(user.name, sender.name, theEvent.name, sender.skills, sender.email,
+                                       "http://formateamnow.appspot.com/formRequest/"+newID+"?response=y",
+                                       "http://formateamnow.appspot.com/formRequest/"+newID+"?response=n"))
 
 class JoinTeamHandler(Handler):
     def post(self):
@@ -159,36 +181,54 @@ class JoinTeamHandler(Handler):
             id=newID
         )
         joinTeamRequest.put()
+        user = User.get_by_id(self.request.get("userURL"))
         theTeam = Team.get_by_id(self.request.get("teamID"))
-        self.response.out.write(newID)
+        leader = User.get_by_id(theTeam.teamLeader)
+        theEvent = Event.get_by_id(theTeam.event)
         mail.send_mail(sender="Form-A-Team Support <ashrayj11@gmail.com>",
-                       to="{0} <{1}>".format(joinAttributes["userName"], joinAttributes["userEmail"]),
-                       subject="{0} - Link for Forming Your Team".format(
-                           Event.get_by_id(joinAttributes["eventUrl"]).name),
+                       to="{0} <{1}>".format(leader.name, leader.email),
+                       subject="Request to join your team for {0}".format(theEvent.name),
                        body="""
                         Dear {0},
 
-                        Your event, "{1}", has been successfully created.
+                        {1} would like to join you group for {2}.
+
+                        {1} possess the following skills- {3}
+
+                        If you'd like further correspondence, you may contact {1} at
+                        {4}
+
+                        Please choose one of the following links to inform us of your choice:
+
+
+                        ACCEPT
+                        {5}
+
+                        DECLINE
+                        {6}
 
                         Form-A-Team Support
-                        """)
+                        """.format(leader.name, user.name, theEvent.name, user.skills, user.email,
+                           "http://formateamnow.appspot.com/joinRequest/"+newID+"?response=y",
+                           "http://formateamnow.appspot.com/joinRequest/"+newID+"?response=n"))
+
 class LeaveTeamHandler(Handler):
     def post(self):
         userID = self.request.get("userURL")
         userObj = User.get_by_id(userID)
+        leader = User.get_by_id(Team.get_by_id(userObj.team).teamLeader)
         if userObj != None:
             userObj.team = None
         mail.send_mail(sender="Form-A-Team Support <ashrayj11@gmail.com>",
-                       to="{0} <{1}>".format(joinAttributes["userName"], joinAttributes["userEmail"]),
-                       subject="{0} - Link for Forming Your Team".format(
-                           Event.get_by_id(joinAttributes["eventUrl"]).name),
+                       to="{0} <{1}>".format(leader.name, leader.email),
+                       subject="One of your team member has left!",
                        body="""
                         Dear {0},
 
-                        Your event, "{1}", has been successfully created.
+                        {1} has left your team.
 
                         Form-A-Team Support
-                        """)
+                        """.format(leader.name, userObj.name))
 
 class UserPageHandler(Handler):
     def get(self, userID):
@@ -269,17 +309,6 @@ class JoinRequestResponseHandler(Handler):
             else:
                 joinRequest.key.delete()
                 self.response.out.write("Team Joining Request Declined!")
-        mail.send_mail(sender="Form-A-Team Support <ashrayj11@gmail.com>",
-                       to="{0} <{1}>".format(joinAttributes["userName"], joinAttributes["userEmail"]),
-                       subject="{0} - Link for Forming Your Team".format(
-                           Event.get_by_id(joinAttributes["eventUrl"]).name),
-                       body="""
-                        Dear {0},
-
-                        Your event, "{1}", has been successfully created.
-
-                        Form-A-Team Support
-                        """)
 
 
 class FormRequestResponseHandler(Handler):
@@ -298,17 +327,6 @@ class FormRequestResponseHandler(Handler):
             else:
                 formRequest.key.delete()
                 self.response.out.write("Team Forming Request Declined!")
-        mail.send_mail(sender="Form-A-Team Support <ashrayj11@gmail.com>",
-                       to="{0} <{1}>".format(joinAttributes["userName"], joinAttributes["userEmail"]),
-                       subject="{0} - Link for Forming Your Team".format(
-                           Event.get_by_id(joinAttributes["eventUrl"]).name),
-                       body="""
-                        Dear {0},
-
-                        Your event, "{1}", has been successfully created.
-
-                        Form-A-Team Support
-                        """)
 
 
 app = webapp2.WSGIApplication([
