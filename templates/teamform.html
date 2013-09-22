@@ -57,7 +57,7 @@
                     <div class="control-group">
                       <label style="float-left; font-size: 25px;" class="control-label" for="textinput">Name</label>
                       <div class="controls">
-                        <input style="float=right; width: 100%; font-size: 25px;"  id="textinput" name="textinput" type="text" placeholder="What's your name?" class="input-xlarge" width="100%" required="">
+                        <input style="float=right; width: 100%; font-size: 25px;"  id="userName" name="textinput" type="text" placeholder="What's your name?" class="input-xlarge" width="100%" required="">
                       </div>
                     </div>
 
@@ -66,7 +66,7 @@
                     <div class="control-group">
                       <label style="float-left; font-size: 25px;" class="control-label" for="textinput">E-mail ID</label>
                       <div class="controls">
-                        <input style="float=right; width: 100%; font-size: 25px;" id="textinput" name="textinput" type="text" placeholder="Where can we reach you?" class="input-xlarge" required="">
+                        <input style="float=right; width: 100%; font-size: 25px;" id="userEmail" name="textinput" type="text" placeholder="Where can we reach you?" class="input-xlarge" required="">
                       </div>
                     </div>
 
@@ -75,8 +75,17 @@
                     <div class="control-group">
                       <label style="float-left; font-size: 25px;" class="control-label" for="textinput">Skills</label>
                       <div class="controls">
-                        <input style="float=right; width: 100%; font-size: 25px;" id="textinput" name="textinput" type="text" placeholder="What skills do you bring to the event?" class="input-xlarge">
+                        <input style="float=right; width: 100%; font-size: 25px;" id="userSkills" name="textinput" type="text" placeholder="What skills do you bring to the event?" class="input-xlarge">
                       </div>
+                    </div>
+
+                    <br />
+                    <!-- Button -->
+                    <div class="control-group">
+                        <label class="control-label" for="singlebutton"></label>
+                        <div class="controls">
+                            <button id="singlebutton" name="singlebutton" class="btn btn-primary" onclick="return joinAnEvent();" style="float:right;"><p style="font-size: 20px;">Submit</p></button>
+                        </div>
                     </div>
 
 </fieldset>
