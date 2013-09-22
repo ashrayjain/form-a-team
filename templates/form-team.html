@@ -71,9 +71,13 @@
 </head>
 <body>
     <div class = "banner">
-    {{ Event.name }}
-    {{ Event.organiser }}
-    {{ Event.description }}
+    <h1 style="text-align:center;">{{ Event.name }}</h1>
+     <h3 style="text-align:center;">by</h3>
+     <h2 style="text-align:center;">{{ Event.organiser }}</h2>
+     <h3 style="text-align:center;"><i>{{ Event.description }}</i></h3>
+     <br />
+     <br />
+    
     </div>
 	<div id = "outer-container">
         {% for teamId, team in Event.teams.iteritems() %}
