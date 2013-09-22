@@ -17,7 +17,9 @@
      <h3 style="text-align:center;">by</h3>
      <h2 style="text-align:center;">{{ Event.organiser }}</h2>
      <h3 style="text-align:center;"><i>{{ Event.description }}</i></h3>
-     <div class="container" id="formContainerInJoinEventPage">
+     <br />
+     <br />
+     <!-- <div class="container" id="formContainerInJoinEventPage" style="width:1000px; margin-left:150px;">
         <div class="row">
             <div class="span12 center">
                 <form id="joinEventForm" role="form" style="align: center;">
@@ -26,26 +28,63 @@
                             <caption style="align: center;"><h2 style="align: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Join the Event</h1></caption>
                             <tr class = "form-row">
                                 <td class = "form-cell">Name</td>
-                                <td class = "form-cell"><input size="10" type="text" id="userName" class = "form-input-text" /></td>
+                                <td class = "form-cell"><input size="10" type="text" id="userName" class = "form-input-text"  style="width:175px;"/></td>
                             </tr>
                             <tr class = "form-row">
                                 <td class = "form-cell">Email</td>
-                                <td class = "form-cell"><input size="10" type="text" id="userEmail" class = "form-input-text" /></td>
+                                <td class = "form-cell"><input size="10" type="text" id="userEmail" class = "form-input-text"  style="width:175px;"/></td>
                             </tr>
                             <tr class = "form-row">
                                 <td class = "form-cell">Skills</td>
-                                <td class = "form-cell"><input type="text" id="userSkills" class = "form-input-text" title="Test" /></td>
+                                <td class = "form-cell"><input type="text" id="userSkills" class = "form-input-text" title="Test"  style="width:175px;"/></td>
                             </tr>
                             <tr>
                                 <td colspan="2">
                                     <input style="margin-left: 100px; align: center;" type="submit" onclick="return joinAnEvent();"/>
                             </tr>
                         </table>
+                        <caption style="align: center;"><h2 style="align: center;">
+
                     </div>
-                 </form>
-            </div>
+                 </form> -->
+                 <form class="form-horizontal" style="width: 50%; align: center; background-color: rgba(0, 0, 0, 0.1);">
+                    <fieldset>
+
+                    <!-- Form Name -->
+                    <legend><p style="font-size:30px"><b>Join Event</b></p></legend>
+
+                    <!-- Text input-->
+                    <div class="control-group">
+                      <label style="float-left; font-size: 25px;" class="control-label" for="textinput">Name</label>
+                      <div class="controls">
+                        <input style="float=right; width: 100%; font-size: 25px;"  id="textinput" name="textinput" type="text" placeholder="What's your name?" class="input-xlarge" width="100%" required="">
+                      </div>
+                    </div>
+
+                    <br />
+                    <!-- Text input-->
+                    <div class="control-group">
+                      <label style="float-left; font-size: 25px;" class="control-label" for="textinput">E-mail ID</label>
+                      <div class="controls">
+                        <input style="float=right; width: 100%; font-size: 25px;" id="textinput" name="textinput" type="text" placeholder="Where can we reach you?" class="input-xlarge" required="">
+                      </div>
+                    </div>
+
+                    <br />
+                    <!-- Text input-->
+                    <div class="control-group">
+                      <label style="float-left; font-size: 25px;" class="control-label" for="textinput">Skills</label>
+                      <div class="controls">
+                        <input style="float=right; width: 100%; font-size: 25px;" id="textinput" name="textinput" type="text" placeholder="What skills do you bring to the event?" class="input-xlarge">
+                      </div>
+                    </div>
+
+</fieldset>
+</form>
+
+            <!-- </div>
         </div>
-    </div>
+    </div> -->
 
 </body>
 </html>
