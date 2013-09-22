@@ -79,16 +79,3 @@ body#teamformbody {
     background-size: 100%;
 }
 
-.teams
-{
-    background-color: rgb(0,200,200);
-    border: thin solid black;
-    display: inline-block;
-    min-width: 200px;
-}
-
-.non-editable
-{
-    border: thin solid grey;
-
-}

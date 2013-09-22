@@ -84,7 +84,7 @@ function generateCreateAnEventPostPackage()
 }
 
 function joinAnEvent()
-{
+{   console.log("I am here" + currentEvent);
     var validData = validateUserJoinAnEventData();
     if(validData)
     {
@@ -101,6 +101,10 @@ function joinAnEvent()
 				path = path.replace(/\\/gi, "\/");
 				window.location = path+data.responseStr;
 			}
+            else
+            {
+                alert(data.responseStr);
+            }
 		});
     }
     return false;
