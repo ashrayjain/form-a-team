@@ -51,7 +51,6 @@
 		tolerance: "pointer",
 		hoverClass: "ui-state-active",
 		accept: "#user",
-		revert: 'invalid',
 		activeClass: "ui-state-hover",
 		drop: function(event, ui){
 			if(this == $(event.draggable).parent())
@@ -66,6 +65,8 @@
 		}
 	});
 	
-	$("#user").draggable();
+	$("#user").draggable({
+		revert: 'invalid'
+	});
 </script>
 </html>
