@@ -182,8 +182,12 @@ class JoinTeamHandler(Handler):
         )
         joinTeamRequest.put()
         user = User.get_by_id(self.request.get("userURL"))
-        theTeam = Team.get_by_id(self.request.get("teamID"))
+        #print user
+        #print self.request.get("teamID")
+        theTeam = Team.get_by_id(int(self.request.get("teamID")))
+        #print theTeam
         leader = User.get_by_id(theTeam.teamLeader)
+        #print leader
         theEvent = Event.get_by_id(theTeam.event)
         mail.send_mail(sender="Form-A-Team Support <ashrayj11@gmail.com>",
                        to="{0} <{1}>".format(leader.name, leader.email),
@@ -216,25 +220,27 @@ class LeaveTeamHandler(Handler):
     def post(self):
         userID = self.request.get("userURL")
         userObj = User.get_by_id(userID)
-        leader = User.get_by_id(Team.get_by_id(userObj.team).teamLeader)
-        if userObj != None:
-            userObj.team = None
-        mail.send_mail(sender="Form-A-Team Support <ashrayj11@gmail.com>",
-                       to="{0} <{1}>".format(leader.name, leader.email),
-                       subject="One of your team member has left!",
-                       body="""
-                        Dear {0},
+        if userObj.team != None:
+            leader = User.get_by_id(Team.get_by_id(userObj.team).teamLeader)
+            if userObj != None:
+                userObj.team = None
+            mail.send_mail(sender="Form-A-Team Support <ashrayj11@gmail.com>",
+                           to="{0} <{1}>".format(leader.name, leader.email),
+                           subject="One of your team member has left!",
+                           body="""
+                            Dear {0},
 
-                        {1} has left your team.
+                            {1} has left your team.
 
-                        Form-A-Team Support
-                        """.format(leader.name, userObj.name))
+                            Form-A-Team Support
+                            """.format(leader.name, userObj.name))
+
 
 class UserPageHandler(Handler):
     def get(self, userID):
-        print userID
+        #print userID
         user = User.get_by_id(userID)
-        print user
+        #print user
         if user is None:
             self.redirect('/')
         else:
@@ -260,10 +266,10 @@ class UserPageHandler(Handler):
                         "url": member.key.id()
                     })
 
-            print returnObj["teams"]
+            #print returnObj["teams"]
             for teamID, members in returnObj["teams"].iteritems():
                 returnObj["teams"][teamID] = [member for member in members if member["url"]!=userID]
-            print returnObj["teams"]
+            #print returnObj["teams"]
 
             independentUsers = User.query(ndb.AND(User.event == user.event, User.team == None))
             for independentUser in independentUsers:
@@ -274,9 +280,9 @@ class UserPageHandler(Handler):
                     "url": independentUser.key.id()
                 })
 
-            print returnObj["nonteam"]
+            #print returnObj["nonteam"]
             returnObj["nonteam"] = [member for member in returnObj["nonteam"] if member["url"] != userID ]
-            print returnObj["nonteam"]
+            #print returnObj["nonteam"]
 
             self.render("form-team.html", Event=returnObj, User={
                 "name": user.name,

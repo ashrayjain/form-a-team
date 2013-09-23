@@ -125,7 +125,8 @@
 		zIndex: 9999,
 		receive: function(event,ui){
 					ui.item.removeClass("editable").addClass("newTeamRequest").addClass('non-editable');
-					if($(ui.item).parent().attr('id') == "no-team")
+					//if($(ui.item).parent().attr('id') == "no-team")
+                    if($(ui.sender).attr('id') == "no-team")
 					{
 						joinTeam($(this).attr('id'));
 					}
