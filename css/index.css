@@ -3,6 +3,15 @@
 
 form { margin: 0 auto; }
 
+body {
+  background: url("../img/bg-image.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+    overflow-x: hidden;
+}
+
 #formCreationContainer {
     padding:50px;
     align:center;
